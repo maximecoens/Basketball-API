@@ -1,4 +1,4 @@
-# Voornaam Familienaam (Studentennummer)
+# Maxime Coens (202186204)
 
 > Duid aan welke vakken je volgt en vermeld voor deze vakken de link naar jouw GitHub repository. In het geval je slechts één vak volgt, verwijder alle inhoud omtrent het andere vak.
 > Verwijder alle instructies (lijnen die starten met >)
@@ -6,8 +6,8 @@
 - [ ] Front-end Web Development
   - [GitHub repository](github.com/HOGENT-Web)
   - [Online versie](github.com/HOGENT-Web)
-- [ ] Web Services: GITHUB URL
-  - [GitHub repository](github.com/HOGENT-Web)
+- [x] Web Services: GITHUB URL
+  - [GitHub repository](github.com/Web-IV/2223-webservices-maximecoens)
   - [Online versie](github.com/HOGENT-Web)
 
 **Logingegevens**
