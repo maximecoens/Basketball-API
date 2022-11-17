@@ -2,24 +2,24 @@ const Router = require('@koa/router');
 const clubService = require('../service/club');
 
 const getClubs = async(ctx) => {
-  ctx.body = clubService.getAll();
+  ctx.body = await clubService.getAll();
 }
 
 const createClub = async(ctx) => {
-  ctx.body = clubService.create({...ctx.request.body});
+  ctx.body = await clubService.create({...ctx.request.body});
 }
 
 const getClubById = async (ctx) => {
-  ctx.body = clubService.getById(ctx.params.id);
+  ctx.body = await clubService.getById(ctx.params.id);
 }
 
 const deleteClub = async (ctx) => {
-  clubService.deleteById(ctx.params.id);
+  await clubService.deleteById(ctx.params.id);
   ctx.status = 204;
 }
 
 const updateClub = async (ctx) => {
-  ctx.body = clubService.updateById(ctx.params.id, {...ctx.request.body})
+  ctx.body = await clubService.updateById(ctx.params.id, {...ctx.request.body})
 }
 
 module.exports = (app) => {

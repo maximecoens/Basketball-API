@@ -1,62 +1,98 @@
 let SPELERS = [
   {
-    id: 1, 
+    spelerId: 1, 
     naam: 'Maxime Coens', 
     gewicht: 73.2, 
     lengte: 183, 
     positie: 'shooting guard', 
-    geboortedatum: '27-08-2002',
-    team: {id: 1, leeftijdscategorie: 'U21'}
+    geboortedatum: '2002-08-27T00:00:00.000Z',
+    team: {
+      teamId: 1,
+      leeftijdscategorie: 'U21',
+      club: {
+        clubId: 1,
+        naam: 'Amon jeugd Gentson',
+        hoofdsponsor: 'Amon',
+        voorzitter: 'papa Gentson',
+        locatie: 'Henleykaai 83, Gent'
+      }
+    }
   },
   {
-		id: 2, 
+		spelerId: 2, 
 		naam: 'Aiko Delbaere', 
 		gewicht: 79, 
 		lengte: 194, 
 		positie: 'guard', 
-		geboortedatum: '02-05-2002', 
-    team: {id: 1, leeftijdscategorie: 'U21'}
+		geboortedatum: '2002-05-16T00:00:00.000Z', 
+    team: {
+      teamId: 1,
+      leeftijdscategorie: 'U21',
+      club: {
+        clubId: 1,
+        naam: 'Amon jeugd Gentson',
+        hoofdsponsor: 'Amon',
+        voorzitter: 'papa Gentson',
+        locatie: 'Henleykaai 83, Gent'
+      }
+    }
   },
   {
-    id: 3, 
+    spelerId: 3, 
     naam: 'Ivan Sugira', 
     gewicht: 83, 
     lengte: 183, 
     positie: 'forward', 
-    geboortedatum: '21-02-2002',
-    team: {id: 2, leeftijdscategorie: 'U21'}
+    geboortedatum: '2002-05-08T00:00:00.000Z',
+    team: {
+      teamId: 2,
+      leeftijdscategorie: 'U21',
+      club: {
+        clubId: 2,
+        naam: 'LDP Donza',
+        hoofdsponsor: 'Tegels',
+        voorzitter: 'papa Donza',
+        locatie: 'OCP, Deinze'
+      }
+    }
   }
 ];
 
 let TEAMS = [
   {
-    id: 1,
+    teamId: 1,
     leeftijdscategorie: 'U21',
     club: {
-      id: 1,
-      naam: 'Amon jeugd Gentson'
+      clubId: 1,
+      naam: 'Amon jeugd Gentson',
+      hoofdsponsor: 'Amon',
+      voorzitter: 'papa Gentson',
+      locatie: 'Henleykaai 83, Gent'
     }
   },
   {
-    id: 1,
+    teamId: 2,
     leeftijdscategorie: 'U21',
     club: {
-      id: 2,
-      naam: 'Donza'
+      clubId: 2,
+      naam: 'LDP Donza',
+      hoofdsponsor: 'Tegels',
+      voorzitter: 'papa Donza',
+      locatie: 'OCP, Deinze'
     }
   }
 ];
 
 let CLUBS = [
   {
-    id: 1,
+    clubId: 1,
     naam: 'Amon jeugd Gentson',
     hoofdsponsor: 'Amon',
     voorzitter: 'papa Gentson',
     locatie: 'Henleykaai 83, Gent'
   },
   {
-    id: 2,
+    clubId: 2,
     naam: 'LDP Donza',
     hoofdsponsor: 'Tegels',
     voorzitter: 'papa Donza',
@@ -66,10 +102,33 @@ let CLUBS = [
 
 let GAMES = [
   {
-    id: 1,
-    datum: '20-10-2022',
+    gameId: 1,
     locatie: 'Henleykaai, Gent',
-    score: 'Gentson 99 - Donza'
+    thuisTeam: {
+      teamId: 1,
+      leeftijdscategorie: 'U21',
+      club: {
+        clubId: 1,
+        naam: 'Amon jeugd Gentson',
+        hoofdsponsor: 'Amon',
+        voorzitter: 'papa Gentson',
+        locatie: 'Henleykaai 83, Gent'
+      }
+    },
+    uitTeam: {
+      teamId: 2,
+      leeftijdscategorie: 'U21',
+      club: {
+        clubId: 2,
+        naam: 'LDP Donza',
+        hoofdsponsor: 'Tegels',
+        voorzitter: 'papa Donza',
+        locatie: 'OCP, Deinze'
+      }
+    },
+    scoreThuis: 99,
+    scoreUit: 55,
+    datum: '2022-05-08T00:00:00.000Z'
   }
 ];
 
