@@ -1,5 +1,5 @@
 const {getLogger} = require('../core/logging');
-let {TEAMS, CLUBS} = require('../data/mock-data');
+const teamRepository = require('../repository/team');
 
 const debugLog = (message, meta = {}) => {
   if (!this.logger) this.logger = getLogger();
@@ -8,56 +8,31 @@ const debugLog = (message, meta = {}) => {
 
 const getAll = async () => {
   debugLog('Fetching all teams');
-  return {items: TEAMS, count: TEAMS.length};
+  const teams = await teamRepository.getAll();
+  return {items: teams, count: teams.length};
 };
 
 const getById =  async(teamId) => {
   debugLog(`Fetching team with id ${teamId}`);
-  return TEAMS.find(t => parseInt(teamId) === t.teamId);
+  return await teamRepository.getById(teamId);
 };
 
 const create = async ({leeftijdscategorie, clubId}) => {
   debugLog(`Creating new team`, {leeftijdscategorie, clubId});
-  let existingClub;
-  if (clubId) {
-    existingClub = CLUBS.find(c => parseInt(clubId) === c.clubId);
-  }
-  if (!existingClub) {
-    throw new Error(`club ${clubId} does not exist`);
-  }
-
-  const newTeam = {
-    teamId: Math.max(...TEAMS.map(t => t.teamId)) + 1,
+  return await teamRepository.create({
     leeftijdscategorie,
-    club: existingClub
-  };
-
-  TEAMS = [...TEAMS, newTeam];
-  return newTeam;
-}
+    clubId
+  });
+};
 
 const updateById = async (teamId, {leeftijdscategorie, clubId}) => {
   debugLog(`Updating team with id ${teamId}`, {leeftijdscategorie, clubId});
-  let existingClub;
-  if (clubId) {
-    existingClub = CLUBS.find(c => parseInt(clubId) === c.clubId);
-  }
-  if (!existingClub) {
-    throw new Error(`club ${clubId} does not exist`);
-  }
-  let team = TEAMS.find(t => parseInt(teamId) === t.teamId);
-  if (!team) {
-    throw new Error("Team does not exist");
-  }
-  team.teamId = teamId;
-  team.leeftijdscategorie = leeftijdscategorie;
-  team.club = existingClub;
-  return team;
-}
+  return await teamRepository.updateById(teamId, {leeftijdscategorie, clubId});
+};
 
 const deleteById = async (teamId) => {
   debugLog(`Deleting team with id ${teamId}`);
-  TEAMS = TEAMS.filter(t => t.teamId !== parseInt(teamId));
-}
+  await teamRepository.deleteById(teamId);
+};
 
 module.exports = {getAll, getById, create, updateById, deleteById};
