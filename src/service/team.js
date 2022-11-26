@@ -17,17 +17,17 @@ const getById =  async(teamId) => {
   return await teamRepository.getById(teamId);
 };
 
-const create = async ({leeftijdscategorie, clubId}) => {
-  debugLog(`Creating new team`, {leeftijdscategorie, clubId});
+const create = async ({naam, clubId}) => {
+  debugLog(`Creating new team`, {naam, clubId});
   return await teamRepository.create({
-    leeftijdscategorie,
+    naam,
     clubId
   });
 };
 
-const updateById = async (teamId, {leeftijdscategorie, clubId}) => {
-  debugLog(`Updating team with id ${teamId}`, {leeftijdscategorie, clubId});
-  return await teamRepository.updateById(teamId, {leeftijdscategorie, clubId});
+const updateById = async (teamId, {naam, clubId}) => {
+  debugLog(`Updating team with id ${teamId}`, {naam, clubId});
+  return await teamRepository.updateById(teamId, {naam, clubId});
 };
 
 const deleteById = async (teamId) => {

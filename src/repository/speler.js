@@ -2,15 +2,15 @@ const {getKnex, tables} = require('../data/index');
 const {getLogger} = require('../core/logging');
 
 const SELECT_COLUMNS = [
-  `${tables.speler}.spelerId`, 'naam', 'gewicht', 'lengte', 'positie', 'geboortedatum',
-  `${tables.team}.teamId`, `${tables.team}.leeftijdscategorie`
+  `${tables.speler}.spelerId`, `${tables.speler}.naam`, 'gewicht', 'lengte', 'positie', 'geboortedatum',
+  `${tables.team}.teamId`, `${tables.team}.naam as teamnaam`
 ];
 
-const formatSpeler = ({teamId, leeftijdscategorie, ...rest}) => ({
+const formatSpeler = ({teamId, teamnaam, ...rest}) => ({
   ...rest,
   team: {
     teamId,
-    leeftijdscategorie
+    naam: teamnaam
   }
 });
 

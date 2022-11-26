@@ -2,16 +2,16 @@ const {getKnex, tables} = require('../data/index');
 const {getLogger} = require('../core/logging');
 
 const SELECT_COLUMNS = [
-  `${tables.team}.teamId`, 'leeftijdscategorie',
-  `${tables.club}.clubId`, `${tables.club}.naam`, `${tables.club}.hoofdsponsor`, 
+  `${tables.team}.teamId`, `${tables.team}.naam`,
+  `${tables.club}.clubId`, `${tables.club}.naam as clubNaam`, `${tables.club}.hoofdsponsor`, 
   `${tables.club}.voorzitter`, `${tables.club}.locatie`
 ];
 
-const formatTeam = ({clubId, naam, hoofdsponsor, voorzitter, locatie, ...rest}) => ({
+const formatTeam = ({clubId, clubNaam, hoofdsponsor, voorzitter, locatie, ...rest}) => ({
   ...rest,
   club: {
     clubId,
-    naam,
+    naam: clubNaam,
     hoofdsponsor,
     voorzitter,
     locatie
@@ -20,7 +20,7 @@ const formatTeam = ({clubId, naam, hoofdsponsor, voorzitter, locatie, ...rest}) 
 
 const getAll = async () => {
   return await getKnex() (tables.team)
-  .select('teamId', 'leeftijdscategorie', `${tables.team}.clubId`, `${tables.club}.naam as clubnaam`)
+  .select('teamId', `${tables.team}.naam`, `${tables.team}.clubId`, `${tables.club}.naam as clubnaam`)
   .join(`${tables.club}`, `${tables.club}.clubId`, '=', `${tables.team}.clubId`);
 };
 
@@ -32,11 +32,11 @@ const getById = async (teamId) => {
   return team && formatTeam(team);
 };
 
-const create = async ({leeftijdscategorie, clubId}) => {
+const create = async ({naam, clubId}) => {
   try {
     const [teamId] = await getKnex() (tables.team)
     .insert({
-      leeftijdscategorie,
+      naam,
       clubId
     });
     return await getById(teamId);
@@ -47,11 +47,11 @@ const create = async ({leeftijdscategorie, clubId}) => {
   }
 };
 
-const updateById = async (teamId, {leeftijdscategorie, clubId}) => {
+const updateById = async (teamId, {naam, clubId}) => {
   try {
     await getKnex() (tables.team)
     .update({
-      leeftijdscategorie,
+      naam,
       clubId
     })
     .where('teamId', teamId);

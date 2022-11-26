@@ -4,21 +4,21 @@ const {getLogger} = require('../core/logging');
 const SELECT_COLUMNS = [
   `${tables.game}.gameId`, `${tables.game}.locatie`, 'scoreThuis',
   'scoreUit', 'datum', 
-  'thuis.teamId', 'thuis.leeftijdscategorie as thuisLeeftijdscategorie',
-  'uit.teamId', 'uit.leeftijdscategorie as uitLeeftijdscategorie',
+  'thuis.teamId', 'thuis.naam as thuisTeamNaam',
+  'uit.teamId', 'uit.naam as uitTeamNaam',
   'thuisClub.naam as thuisClubNaam', 'uitClub.naam as uitClubNaam'
 ];
 
-const formatGame = ({thuisTeamId, uitTeamId, thuisLeeftijdscategorie, uitLeeftijdscategorie, thuisClubNaam, uitClubNaam,...rest}) => ({
+const formatGame = ({thuisTeamId, uitTeamId, thuisTeamNaam, uitTeamNaam, thuisClubNaam, uitClubNaam,...rest}) => ({
   ...rest,
   thuisTeam: {
     thuisTeamId,
-    leeftijdscategorie: thuisLeeftijdscategorie,
+    naam: thuisTeamNaam,
     clubnaam: thuisClubNaam
   },
   uitTeam: {
     uitTeamId,
-    leeftijdscategorie: uitLeeftijdscategorie,
+    naam: uitTeamNaam,
     clubnaam: uitClubNaam
   }
 });
