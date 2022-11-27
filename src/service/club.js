@@ -9,7 +9,7 @@ const debugLog = (message, meta = {}) => {
 const getAll = async () => {
   debugLog('Fetching all clubs');
   const clubs = await clubRepository.getAll();
-  return {items: clubs, count: clubs.length};
+  return {items: clubs, count: await clubRepository.getCount()};
 }
 
 const getById = async (clubId) => {

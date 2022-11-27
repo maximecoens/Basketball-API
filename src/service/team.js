@@ -9,7 +9,7 @@ const debugLog = (message, meta = {}) => {
 const getAll = async () => {
   debugLog('Fetching all teams');
   const teams = await teamRepository.getAll();
-  return {items: teams, count: teams.length};
+  return {items: teams, count: await teamRepository.getCount()};
 };
 
 const getById =  async(teamId) => {

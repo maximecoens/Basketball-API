@@ -55,10 +55,16 @@ const updateById = async (clubId, {naam, hoofdsponsor, voorzitter, locatie}) => 
 };
 
 const deleteById = async (clubId) => {
-  await getKnex() (tables.club)
+  const rowsAffected = await getKnex() (tables.club)
   .where('clubId', clubId)
   .del();
+  return rowsAffected > 0;
+};
+
+const getCount = async () => {
+  const [count] = await getKnex() (tables.club).count();
+  return count['COUNT(*)'];
 };
 
 
-module.exports = {getAll, getById, create, updateById, deleteById};
+module.exports = {getAll, getById, create, updateById, deleteById, getCount};

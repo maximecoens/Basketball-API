@@ -64,9 +64,15 @@ const updateById = async (teamId, {naam, clubId}) => {
 };
 
 const deleteById = async (teamId) => {
-  await getKnex() (tables.team)
+  const rowsAffected = await getKnex() (tables.team)
   .where('teamId', teamId)
   .del();
+  return rowsAffected > 0; 
 };
 
-module.exports = {getAll, getById, create, updateById, deleteById};
+const getCount = async () => {
+  const [count] = await getKnex() (tables.team).count();
+  return count['COUNT(*)'];
+};
+
+module.exports = {getAll, getById, create, updateById, deleteById, getCount};

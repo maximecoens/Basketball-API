@@ -67,9 +67,15 @@ const updateById = async (spelerdId, {naam, gewicht, lengte, positie, geboorteda
 };
 
 const deleteById = async (spelerId) => {
-  await getKnex() (tables.speler)
+  const rowsAffected = await getKnex() (tables.speler)
   .where('spelerId', spelerId)
   .del();
+  return rowsAffected > 0;
 };
 
-module.exports = {getAll, getById, create, updateById, deleteById};
+const getCount = async () => {
+  const [count] = await getKnex() (tables.speler).count();
+  return count['COUNT(*)'];
+};
+
+module.exports = {getAll, getById, create, updateById, deleteById, getCount};

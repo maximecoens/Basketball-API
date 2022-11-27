@@ -9,7 +9,7 @@ const debugLog = (message, meta = {}) => {
 const getAll = async () => {
   debugLog('Fetching all players');
   const spelers = await spelerRepository.getAll();
-  return {items: spelers, count: spelers.length};
+  return {items: spelers, count: await spelerRepository.getCount()};
 }
 
 const getById = async (spelerId) => {

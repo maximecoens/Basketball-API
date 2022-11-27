@@ -79,9 +79,15 @@ const updateById = async (gameId, {locatie, scoreThuis, scoreUit, datum, thuisTe
 };
 
 const deleteById = async (gameId) => {
-  await getKnex() (tables.game)
+  const rowsAffected = await getKnex() (tables.game)
   .where('gameId', gameId)
   .del();
+  return rowsAffected > 0;
 };
 
-module.exports = {getAll, getById, create, updateById, deleteById};
+const getCount = async () => {
+  const [count] = await getKnex() (tables.game).count();
+  return count['COUNT(*)'];
+};
+
+module.exports = {getAll, getById, create, updateById, deleteById, getCount};
