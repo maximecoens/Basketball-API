@@ -6,17 +6,7 @@ let SPELERS = [
     lengte: 183, 
     positie: 'shooting guard', 
     geboortedatum: '2002-08-27T00:00:00.000Z',
-    team: {
-      teamId: 1,
-      leeftijdscategorie: 'U21',
-      club: {
-        clubId: 1,
-        naam: 'Amon jeugd Gentson',
-        hoofdsponsor: 'Amon',
-        voorzitter: 'papa Gentson',
-        locatie: 'Henleykaai 83, Gent'
-      }
-    }
+    teamId: 1
   },
   {
 		spelerId: 2, 
@@ -25,17 +15,7 @@ let SPELERS = [
 		lengte: 194, 
 		positie: 'guard', 
 		geboortedatum: '2002-05-16T00:00:00.000Z', 
-    team: {
-      teamId: 1,
-      leeftijdscategorie: 'U21',
-      club: {
-        clubId: 1,
-        naam: 'Amon jeugd Gentson',
-        hoofdsponsor: 'Amon',
-        voorzitter: 'papa Gentson',
-        locatie: 'Henleykaai 83, Gent'
-      }
-    }
+    teamId: 1
   },
   {
     spelerId: 3, 
@@ -44,42 +24,20 @@ let SPELERS = [
     lengte: 183, 
     positie: 'forward', 
     geboortedatum: '2002-05-08T00:00:00.000Z',
-    team: {
-      teamId: 2,
-      leeftijdscategorie: 'U21',
-      club: {
-        clubId: 2,
-        naam: 'LDP Donza',
-        hoofdsponsor: 'Tegels',
-        voorzitter: 'papa Donza',
-        locatie: 'OCP, Deinze'
-      }
-    }
+    teamId: 2
   }
 ];
 
 let TEAMS = [
   {
     teamId: 1,
-    leeftijdscategorie: 'U21',
-    club: {
-      clubId: 1,
-      naam: 'Amon jeugd Gentson',
-      hoofdsponsor: 'Amon',
-      voorzitter: 'papa Gentson',
-      locatie: 'Henleykaai 83, Gent'
-    }
+    naam: 'Amon Jeugd Gentson U21',
+    clubId: 1
   },
   {
     teamId: 2,
-    leeftijdscategorie: 'U21',
-    club: {
-      clubId: 2,
-      naam: 'LDP Donza',
-      hoofdsponsor: 'Tegels',
-      voorzitter: 'papa Donza',
-      locatie: 'OCP, Deinze'
-    }
+    naam: 'LDP Donza U21',
+    clubId: 2
   }
 ];
 
@@ -104,28 +62,8 @@ let GAMES = [
   {
     gameId: 1,
     locatie: 'Henleykaai, Gent',
-    thuisTeam: {
-      teamId: 1,
-      leeftijdscategorie: 'U21',
-      club: {
-        clubId: 1,
-        naam: 'Amon jeugd Gentson',
-        hoofdsponsor: 'Amon',
-        voorzitter: 'papa Gentson',
-        locatie: 'Henleykaai 83, Gent'
-      }
-    },
-    uitTeam: {
-      teamId: 2,
-      leeftijdscategorie: 'U21',
-      club: {
-        clubId: 2,
-        naam: 'LDP Donza',
-        hoofdsponsor: 'Tegels',
-        voorzitter: 'papa Donza',
-        locatie: 'OCP, Deinze'
-      }
-    },
+    thuisTeamId: 1,
+    uitTeamId: 2,
     scoreThuis: 99,
     scoreUit: 55,
     datum: '2022-05-08T00:00:00.000Z'
