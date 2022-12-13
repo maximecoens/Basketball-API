@@ -12,7 +12,7 @@ module.exports = {
   database: {
     host : 'vichogent.be',
     port : 40043,
-    database : '186204mc',
+    database : '186204mc_test',
     client: 'mysql2'
   }
 };
