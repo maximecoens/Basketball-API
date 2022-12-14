@@ -10,6 +10,7 @@ ctx.body = await spelerService.create({
   ...ctx.request.body,
   geboortedatum: new Date(ctx.request.body.geboortedatum)
   }); // wat men meegeeft destructioning
+ctx.status = 201;
 };
 
 const getSpelerById = async(ctx) => {

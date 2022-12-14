@@ -66,6 +66,7 @@ const initializeDatabase = async () => {
     await getKnex().migrate.latest();
     knexMigrationFailed = false;
   } catch (error) {
+    console.log(error)
     getLogger().error('migration failed', {error});
   }
 

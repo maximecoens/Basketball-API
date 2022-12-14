@@ -10,6 +10,7 @@ ctx.body = await gameService.create({
   ...ctx.request.body,
   datum: new Date(ctx.request.body.datum)
   }); // wat men meegeeft destructioning
+  ctx.status = 201;
 };
 
 const getGameById = async(ctx) => {

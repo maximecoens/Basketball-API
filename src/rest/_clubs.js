@@ -7,6 +7,7 @@ const getClubs = async(ctx) => {
 
 const createClub = async(ctx) => {
   ctx.body = await clubService.create({...ctx.request.body});
+  ctx.status = 201;
 }
 
 const getClubById = async (ctx) => {

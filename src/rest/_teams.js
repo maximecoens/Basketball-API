@@ -7,10 +7,12 @@ const getTeams = async(ctx) => {
 
 const createTeam = async(ctx) => {
   ctx.body = await teamService.create({...ctx.request.body}); // wat men meegeeft destructioning
+  ctx.status = 201;
 };
 
 const getTeamById = async(ctx) => {
   ctx.body = await teamService.getById(ctx.params.id); // id niet geparsed
+
 };
 
 const deleteTeam = async(ctx) => {

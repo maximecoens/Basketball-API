@@ -30,7 +30,7 @@ const create = async ({naam, gewicht, lengte, positie, geboortedatum, teamId}) =
 
 const updateById = async (spelerId, {naam, gewicht, lengte, positie, geboortedatum, teamId}) => {
   debugLog(`Updating player with id ${spelerId}`, {naam, gewicht, lengte, positie, geboortedatum, teamId});
-  return await spelerRepository(spelerId, {naam, gewicht, lengte, positie, geboortedatum, teamId});
+  return await spelerRepository.updateById(spelerId, {naam, gewicht, lengte, positie, geboortedatum, teamId});
 };
 
 const deleteById = async (spelerId) => {

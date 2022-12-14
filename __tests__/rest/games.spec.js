@@ -1,0 +1,214 @@
+const createServer = require("../../src/createServer");
+const supertest = require('supertest');
+const {getKnex, tables} = require("../../src/data");
+
+const data = {
+  teams: [
+    {
+      teamId: 1,
+      naam: 'Amon Jeugd Gentson U21',
+      clubId: 1
+    },
+    {
+      teamId: 2,
+      naam: 'LDP Donza U21',
+      clubId: 2
+    }
+  ],
+  clubs: [
+    {
+      clubId: 1,
+      naam: 'Amon jeugd Gentson',
+      hoofdsponsor: 'Amon',
+      voorzitter: 'papa Gentson',
+      locatie: 'Henleykaai 83, Gent'
+    },
+    {
+      clubId: 2,
+      naam: 'LDP Donza',
+      hoofdsponsor: 'Tegels',
+      voorzitter: 'papa Donza',
+      locatie: 'OCP, Deinze'
+    }
+  ],
+  games: [
+    {
+      gameId: 1,
+      locatie: 'Henleykaai, Gent',
+      thuisTeamId: 1,
+      uitTeamId: 2,
+      scoreThuis: 99,
+      scoreUit: 55,
+      datum: new Date(2022, 5, 12)
+    }
+  ]
+};
+
+const dataToDelete = {
+  teams: [1, 2],
+  clubs: [1, 2],
+  games: [1]
+};
+
+describe('games', () => {
+  let server;
+  let request;
+  let knex;
+
+  beforeAll(async () => {
+    server = await createServer();
+    request = supertest(server.getApp().callback()); // callback zorgt voor request te kunnen sturen
+    knex = getKnex();
+  });
+
+  afterAll(async () => {
+    await server.stop();
+  });
+
+  const url = '/api/games';
+
+  describe('GET /api/games', () => {
+    beforeAll(async () => {
+      await knex(tables.club).insert(data.clubs);
+      await knex(tables.team).insert(data.teams);
+      await knex(tables.game).insert(data.games);
+    });
+
+    afterAll(async () => {
+      await knex(tables.game).whereIn('gameId', dataToDelete.games).delete();
+      await knex(tables.team).whereIn('teamId', dataToDelete.teams).delete();
+      await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
+    });
+
+    it('should return 200 and return all games', async () => {
+      const response = await request.get(url);
+      expect(response.status).toBe(200);
+      expect(response.body.items.length).toBe(1);
+    });
+  });
+  describe('GET /api/games/:id', () => {
+    beforeAll(async () => {
+      await knex(tables.club).insert(data.clubs);
+      await knex(tables.team).insert(data.teams);
+      await knex(tables.game).insert(data.games[0]);
+    });
+
+    afterAll(async () => {
+      await knex(tables.game).whereIn('gameId', dataToDelete.games[0]).delete();
+      await knex(tables.team).whereIn('teamId', dataToDelete.teams).delete();
+      await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
+    });
+
+    it('it should return 200 and return the requested game', async () => {
+      const response = await request.get(`${url}/${data.games[0].gameId}`);
+      expect(response.status).toBe(200);
+    });
+  });
+
+  describe('POST /api/games', () => {
+    const gamesToDelete = [];
+
+    beforeAll(async () => {
+      await knex(tables.team).insert(data.teams);
+      await knex(tables.club).insert(data.clubs);
+    });
+
+    afterAll(async () => {
+      await knex(tables.game)
+        .whereIn('gameId', gamesToDelete)
+        .delete();
+      await knex(tables.team)
+        .whereIn('teamId', dataToDelete.teams)
+        .delete();
+
+      await knex(tables.club)
+        .whereIn('clubId', dataToDelete.clubs)
+        .delete();
+    });
+
+    it('should return 201 and return the newly created game', async () => {
+      const response = await request.post(url)
+      .send({
+        locatie: 'OCP, Deinze',
+        thuisTeamId: 2,
+        uitTeamId: 1,
+        scoreThuis: 99,
+        scoreUit: 55,
+        datum: new Date(2022, 12, 5)
+      });
+
+      expect(response.status).toBe(201);
+      expect(response.body.gameId).toBeTruthy();
+      expect(response.body.locatie).toBe('OCP, Deinze');
+      expect(response.body.scoreThuis).toBe(99);
+      expect(response.body.scoreUit).toBe(55);
+      gamesToDelete.push(response.body.gameId);
+    });
+  });
+
+  describe('PUT /api/games/:id', () => {
+    beforeAll(async () => {
+      await knex(tables.club).insert(data.clubs);
+      await knex(tables.team).insert(data.teams);
+      await knex(tables.game).insert([{
+        gameId: 2,
+        locatie: 'OCP, Deinze',
+        thuisTeamId: 2,
+        uitTeamId: 1,
+        scoreThuis: 99,
+        scoreUit: 55,
+        datum: new Date(2022, 12, 5)
+      }]);
+    });
+
+      afterAll(async () => {
+        await knex(tables.speler).where('gameId', 2).delete();
+        await knex(tables.team).whereIn('teamId', dataToDelete.teams).delete();
+        await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
+      });
+
+      it('should return 200 and return the updated game', async () => {
+        const response = await request.put(`${url}/2`).send({
+          locatie: 'OCP, Deinze',
+          thuisTeamId: 2,
+          uitTeamId: 1,
+          scoreThuis: 40,
+          scoreUit: 55,
+          datum: new Date(2022, 12, 5)
+        });
+
+        expect(response.status).toBe(200);
+        expect(response.body.gameId).toBeTruthy();
+        expect(response.body.locatie).toBe('OCP, Deinze');
+        expect(response.body.scoreThuis).toBe(40);
+        expect(response.body.scoreUit).toBe(55);
+      });
+    });
+
+  describe('DELETE /api/games/:id', () => {
+    beforeAll(async () => {
+      await knex(tables.club).insert(data.clubs);
+      await knex(tables.team).insert(data.teams);
+      await knex(tables.game).insert([{
+        gameId: 2,
+        locatie: 'OCP, Deinze',
+        thuisTeamId: 2,
+        uitTeamId: 1,
+        scoreThuis: 99,
+        scoreUit: 55,
+        datum: new Date(2022, 12, 5)
+      }]);
+    });
+
+      afterAll(async () => {
+        await knex(tables.team).whereIn('teamId', dataToDelete.teams).delete();
+        await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
+      });
+
+      it('should respond 204 and return nothing', async () => {
+        const response = await request.delete(`${url}/2`);
+        expect(response.status).toBe(204);
+        expect(response.body).toEqual({});
+      });
+  });
+});
