@@ -7,25 +7,25 @@ const data = {
     {
       teamId: 1,
       naam: 'Amon Jeugd Gentson U21',
-      clubId: 1
+      clubId: 3
     },
     {
       teamId: 2,
       naam: 'LDP Donza U21',
-      clubId: 2
+      clubId: 4
     }
   ],
   clubs: [
     {
-      clubId: 1,
-      naam: 'Amon jeugd Gentson',
+      clubId: 3,
+      naam: 'Test Club 1',
       hoofdsponsor: 'Amon',
       voorzitter: 'papa Gentson',
       locatie: 'Henleykaai 83, Gent'
     },
     {
-      clubId: 2,
-      naam: 'LDP Donza',
+      clubId: 4,
+      naam: 'Test Club 2',
       hoofdsponsor: 'Tegels',
       voorzitter: 'papa Donza',
       locatie: 'OCP, Deinze'
@@ -35,7 +35,7 @@ const data = {
 
 const dataToDelete = {
   teams: [1, 2],
-  clubs: [1, 2]
+  clubs: [3, 4]
 };
 
 describe('teams', () => {
@@ -69,12 +69,12 @@ describe('teams', () => {
     it('should return 200 and return all teams', async () => {
       const response = await request.get(url);
       expect(response.status).toBe(200);
-      expect(response.body.items.length).toBe(2);
+      expect(response.body.items.length).toBeGreaterThanOrEqual(2);
       expect(response.body.items[1]).toEqual({
         teamId: 2,
       naam: 'LDP Donza U21',
-      clubnaam: 'LDP Donza', // door in repository/team => select statement ook met clubnaam
-      clubId: 2
+      clubnaam: 'Test Club 2', // door in repository/team => select statement ook met clubnaam
+      clubId: 4
       });
       
     });
@@ -86,7 +86,7 @@ describe('teams', () => {
     });
 
     afterAll(async () => {
-      await knex(tables.team).whereIn('teamId', dataToDelete.teams[0]).delete();
+      await knex(tables.team).where('teamId', dataToDelete.teams[0]).delete();
       await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
     });
 
@@ -99,6 +99,7 @@ describe('teams', () => {
   describe('POST /api/teams', () => {
     const teamsToDelete = [];
 
+    //TODO: hoeft er niet bij?
     beforeAll(async () => {
       await knex(tables.club).insert(data.clubs);
     });
@@ -117,15 +118,15 @@ describe('teams', () => {
       const response = await request.post(url)
       .send({
       naam: 'Amon Jeugd Gentson U18',
-      clubId: 1
+      clubId: 3
       });
 
       expect(response.status).toBe(201);
       expect(response.body.teamId).toBeTruthy();
       expect(response.body.naam).toBe('Amon Jeugd Gentson U18');
-      expect(response.body.place).toEqual({
-        clubId: 1,
-      naam: 'Amon jeugd Gentson',
+      expect(response.body.club).toEqual({
+        clubId: 3,
+      naam: 'Test Club 1',
       hoofdsponsor: 'Amon',
       voorzitter: 'papa Gentson',
       locatie: 'Henleykaai 83, Gent'
@@ -138,30 +139,29 @@ describe('teams', () => {
     beforeAll(async () => {
       await knex(tables.club).insert(data.clubs);
       await knex(tables.team).insert([{
-        teamId: 3,
+        teamId: 4,
         naam: "Amon Jeugd Gentson Heren A",
-        clubId: 1
+        clubId: 3
       }]);
     });
 
       afterAll(async () => {
-        await knex(tables.team).where('teamId', 3).delete();
+        await knex(tables.team).where('teamId', 4).delete();
         await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
       });
 
       it('should return 200 and return the updated team', async () => {
-        const response = await request.put(`${url}/3`).send({
-          teamId: 3,
+        const response = await request.put(`${url}/4`).send({
           naam: "Amon Jeugd Gentson Heren B",
-          clubId: 1
+          clubId: 3
         });
 
         expect(response.status).toBe(200);
         expect(response.body.teamId).toBeTruthy();
         expect(response.body.naam).toBe("Amon Jeugd Gentson Heren B");
         expect(response.body.club).toEqual({
-          clubId: 1,
-          naam: 'Amon jeugd Gentson',
+          clubId: 3,
+          naam: 'Test Club 1',
           hoofdsponsor: 'Amon',
           voorzitter: 'papa Gentson',
           locatie: 'Henleykaai 83, Gent'
@@ -176,7 +176,7 @@ describe('teams', () => {
       await knex(tables.team).insert([{
         teamId: 3,
         naam: "Amon Jeugd Gentson Heren C",
-        clubId: 1
+        clubId: 3
       }]);
     });
 

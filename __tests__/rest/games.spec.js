@@ -5,27 +5,27 @@ const {getKnex, tables} = require("../../src/data");
 const data = {
   teams: [
     {
-      teamId: 1,
-      naam: 'Amon Jeugd Gentson U21',
-      clubId: 1
+      teamId: 7,
+      naam: 'Test team 7',
+      clubId: 7
     },
     {
-      teamId: 2,
-      naam: 'LDP Donza U21',
-      clubId: 2
+      teamId: 8,
+      naam: 'Test team 8',
+      clubId: 8
     }
   ],
   clubs: [
     {
-      clubId: 1,
-      naam: 'Amon jeugd Gentson',
+      clubId: 7,
+      naam: 'Test club 7',
       hoofdsponsor: 'Amon',
       voorzitter: 'papa Gentson',
       locatie: 'Henleykaai 83, Gent'
     },
     {
-      clubId: 2,
-      naam: 'LDP Donza',
+      clubId: 8,
+      naam: 'Test club 8',
       hoofdsponsor: 'Tegels',
       voorzitter: 'papa Donza',
       locatie: 'OCP, Deinze'
@@ -35,8 +35,8 @@ const data = {
     {
       gameId: 1,
       locatie: 'Henleykaai, Gent',
-      thuisTeamId: 1,
-      uitTeamId: 2,
+      thuisTeamId: 7,
+      uitTeamId: 8,
       scoreThuis: 99,
       scoreUit: 55,
       datum: new Date(2022, 5, 12)
@@ -45,8 +45,8 @@ const data = {
 };
 
 const dataToDelete = {
-  teams: [1, 2],
-  clubs: [1, 2],
+  teams: [7, 8],
+  clubs: [7, 8],
   games: [1]
 };
 
@@ -94,7 +94,7 @@ describe('games', () => {
     });
 
     afterAll(async () => {
-      await knex(tables.game).whereIn('gameId', dataToDelete.games[0]).delete();
+      await knex(tables.game).where('gameId', dataToDelete.games[0]).delete();
       await knex(tables.team).whereIn('teamId', dataToDelete.teams).delete();
       await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
     });
@@ -109,8 +109,8 @@ describe('games', () => {
     const gamesToDelete = [];
 
     beforeAll(async () => {
-      await knex(tables.team).insert(data.teams);
       await knex(tables.club).insert(data.clubs);
+      await knex(tables.team).insert(data.teams);
     });
 
     afterAll(async () => {
@@ -130,8 +130,8 @@ describe('games', () => {
       const response = await request.post(url)
       .send({
         locatie: 'OCP, Deinze',
-        thuisTeamId: 2,
-        uitTeamId: 1,
+        thuisTeamId: 8,
+        uitTeamId: 7,
         scoreThuis: 99,
         scoreUit: 55,
         datum: new Date(2022, 12, 5)
@@ -153,8 +153,8 @@ describe('games', () => {
       await knex(tables.game).insert([{
         gameId: 2,
         locatie: 'OCP, Deinze',
-        thuisTeamId: 2,
-        uitTeamId: 1,
+        thuisTeamId: 8,
+        uitTeamId: 7,
         scoreThuis: 99,
         scoreUit: 55,
         datum: new Date(2022, 12, 5)
@@ -162,7 +162,7 @@ describe('games', () => {
     });
 
       afterAll(async () => {
-        await knex(tables.speler).where('gameId', 2).delete();
+        await knex(tables.game).where('gameId', 2).delete();
         await knex(tables.team).whereIn('teamId', dataToDelete.teams).delete();
         await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
       });
@@ -170,8 +170,8 @@ describe('games', () => {
       it('should return 200 and return the updated game', async () => {
         const response = await request.put(`${url}/2`).send({
           locatie: 'OCP, Deinze',
-          thuisTeamId: 2,
-          uitTeamId: 1,
+          thuisTeamId: 8,
+          uitTeamId: 7,
           scoreThuis: 40,
           scoreUit: 55,
           datum: new Date(2022, 12, 5)
@@ -192,8 +192,8 @@ describe('games', () => {
       await knex(tables.game).insert([{
         gameId: 2,
         locatie: 'OCP, Deinze',
-        thuisTeamId: 2,
-        uitTeamId: 1,
+        thuisTeamId: 7,
+        uitTeamId: 8,
         scoreThuis: 99,
         scoreUit: 55,
         datum: new Date(2022, 12, 5)

@@ -52,7 +52,7 @@ describe('clubs', () => {
     it('should return 200 and all clubs', async () => {
       const response = await request.get(url);
       expect(response.status).toBe(200);
-      expect(response.body.items.length).toBe(2);
+      expect(response.body.items.length).toBeGreaterThanOrEqual(2);
       expect(response.body.items[1]).toEqual({
         clubId: 2,
       naam: 'LDP Donza',

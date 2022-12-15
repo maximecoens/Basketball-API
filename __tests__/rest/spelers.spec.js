@@ -11,7 +11,7 @@ const data = {
     lengte: 183, 
     positie: 'shooting guard', 
     geboortedatum: new Date(2002, 8, 27),
-    teamId: 1
+    teamId: 5
     },
     {
       spelerId: 2, 
@@ -20,7 +20,7 @@ const data = {
 		lengte: 194, 
 		positie: 'guard', 
 		geboortedatum: new Date(2002, 5, 16), 
-    teamId: 1
+    teamId: 5
     },
     {
       spelerId: 3, 
@@ -29,32 +29,32 @@ const data = {
     lengte: 183, 
     positie: 'forward', 
     geboortedatum: new Date(2002, 2, 18),
-    teamId: 2
+    teamId: 6
     }
   ],
   teams: [
     {
-      teamId: 1,
-      naam: 'Amon Jeugd Gentson U21',
-      clubId: 1
+      teamId: 5,
+      naam: 'Test Team 5',
+      clubId: 5
     },
     {
-      teamId: 2,
-      naam: 'LDP Donza U21',
-      clubId: 2
+      teamId: 6,
+      naam: 'Test Team 6',
+      clubId: 6
     }
   ],
   clubs: [
     {
-      clubId: 1,
-      naam: 'Amon jeugd Gentson',
+      clubId: 5,
+      naam: 'Test Club 5',
       hoofdsponsor: 'Amon',
       voorzitter: 'papa Gentson',
       locatie: 'Henleykaai 83, Gent'
     },
     {
-      clubId: 2,
-      naam: 'LDP Donza',
+      clubId: 6,
+      naam: 'Test Club 6',
       hoofdsponsor: 'Tegels',
       voorzitter: 'papa Donza',
       locatie: 'OCP, Deinze'
@@ -64,8 +64,8 @@ const data = {
 
 const dataToDelete = {
   spelers: [1, 2, 3],
-  teams: [1, 2],
-  clubs: [1, 2]
+  teams: [5, 6],
+  clubs: [5, 6]
 };
 
 describe('spelers', () => {
@@ -112,7 +112,7 @@ describe('spelers', () => {
     });
 
     afterAll(async () => {
-      await knex(tables.speler).whereIn('spelerId', dataToDelete.spelers[0]).delete();
+      await knex(tables.speler).where('spelerId', dataToDelete.spelers[0]).delete();
       await knex(tables.team).whereIn('teamId', dataToDelete.teams).delete();
       await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
     });
@@ -127,8 +127,8 @@ describe('spelers', () => {
     const spelersToDelete = [];
 
     beforeAll(async () => {
-      await knex(tables.team).insert(data.teams);
       await knex(tables.club).insert(data.clubs);
+      await knex(tables.team).insert(data.teams);
     });
 
     afterAll(async () => {
@@ -152,11 +152,11 @@ describe('spelers', () => {
         lengte: 183, 
         positie: 'shooting guard', 
         geboortedatum: new Date(2002, 8, 27),
-        teamId: 1
+        teamId: 5
       });
 
       expect(response.status).toBe(201);
-      expect(response.body.teamId).toBeTruthy();
+      expect(response.body.spelerId).toBeTruthy();
       expect(response.body.naam).toBe('Test Player');
       expect(response.body.gewicht).toBe(73.2);
       expect(response.body.lengte).toBe(183);
@@ -171,42 +171,41 @@ describe('spelers', () => {
       await knex(tables.club).insert(data.clubs);
       await knex(tables.team).insert(data.teams);
       await knex(tables.speler).insert([{
-        spelerId: 4, 
-        naam: 'Test Player', 
+        spelerId: 5, 
+        naam: 'Test Player 5', 
         gewicht: 73.2, 
         lengte: 183, 
         positie: 'shooting guard', 
         geboortedatum: new Date(2002, 8, 27),
-        teamId: 1
+        teamId: 5
       }]);
     });
 
       afterAll(async () => {
-        await knex(tables.speler).where('spelerId', 4).delete();
+        await knex(tables.speler).where('spelerId', 5).delete();
         await knex(tables.team).whereIn('teamId', dataToDelete.teams).delete();
         await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
       });
 
       it('should return 200 and return the updated speler', async () => {
-        const response = await request.put(`${url}/4`).send({
-        naam: 'Test Player 2', 
+        const response = await request.put(`${url}/5`).send({
+        naam: 'Test Player 5.1', 
         gewicht: 73.2, 
         lengte: 183, 
         positie: 'shooting guard', 
         geboortedatum: new Date(2002, 8, 27),
-        teamId: 1
+        teamId: 5
         });
 
         expect(response.status).toBe(200);
-      expect(response.body.teamId).toBeTruthy();
+      expect(response.body.spelerId).toBeTruthy();
       expect(response.body.gewicht).toBe(73.2);
       expect(response.body.lengte).toBe(183);
       expect(response.body.positie).toBe('shooting guard');
-        expect(response.body.naam).toBe("Test Player 2");
+        expect(response.body.naam).toBe("Test Player 5.1");
         expect(response.body.team).toEqual({
-          teamId: 1,
-          naam: 'Amon Jeugd Gentson U21',
-          clubId: 1
+          teamId: 5,
+          naam: 'Test Team 5'
         });
       });
     });
@@ -216,13 +215,13 @@ describe('spelers', () => {
       await knex(tables.club).insert(data.clubs);
       await knex(tables.team).insert(data.teams);
       await knex(tables.speler).insert([{
-        spelerId: 4, 
-        naam: 'Test Player', 
+        spelerId: 6, 
+        naam: 'Test Player 6', 
         gewicht: 73.2, 
         lengte: 183, 
         positie: 'shooting guard', 
         geboortedatum: new Date(2002, 8, 27),
-        teamId: 1
+        teamId: 5
       }]);
     });
 
@@ -232,7 +231,7 @@ describe('spelers', () => {
       });
 
       it('should respond 204 and return nothing', async () => {
-        const response = await request.delete(`${url}/4`);
+        const response = await request.delete(`${url}/6`);
         expect(response.status).toBe(204);
         expect(response.body).toEqual({});
       });
