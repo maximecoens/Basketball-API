@@ -50,7 +50,7 @@ const create = async ({locatie, scoreThuis, scoreUit, datum, thuisTeamId, uitTea
       thuisTeamId,
       uitTeamId
     });
-    return await getById(gameId);
+    return gameId;
   } catch (error) {
     const logger = getLogger();
     logger.error('Error in create', {error});

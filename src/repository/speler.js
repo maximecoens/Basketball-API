@@ -39,10 +39,11 @@ const create = async({naam, gewicht, lengte, positie, geboortedatum, teamId}) =>
       positie,
       geboortedatum,
       teamId});
-    return await getById(spelerId);
+    return spelerId;
   } catch (error) {
-    getLogger.error('creation failed', {error});
-    throw new Error('creation failed');
+    const logger = getLogger();
+    logger.error('creation failed', {error});
+    throw error;
   }
 };
 

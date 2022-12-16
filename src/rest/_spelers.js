@@ -1,9 +1,12 @@
 const Router = require('@koa/router');
 const spelerService = require('../service/speler');
+const Joi = require('joi');
+const validate = require('./_validation');
 
 const getSpelers = async(ctx) => {
   ctx.body = await spelerService.getAll();
 };
+getSpelers.validationScheme = null;
 
 const createSpeler = async(ctx) => {
 ctx.body = await spelerService.create({
@@ -13,13 +16,34 @@ ctx.body = await spelerService.create({
 ctx.status = 201;
 };
 
+createSpeler.validationScheme = {
+  body: {
+    naam: Joi.string().max(255),
+    gewicht: Joi.number().positive(),
+    lengte: Joi.number().positive(),
+    positie: Joi.string().max(255),
+    geboortedatum: Joi.date().iso().less('now'),
+    teamId: Joi.number().integer().positive()
+  }
+};
+
 const getSpelerById = async(ctx) => {
-ctx.body = await spelerService.getById(ctx.params.id); // id niet geparsed
+  ctx.body = await spelerService.getById(ctx.params.id); // id niet geparsed
+};
+getSpelerById.validationScheme = {
+  params: {
+    id: Joi.number().integer().positive()
+  }
 };
 
 const deleteSpeler = async(ctx) => {
 await spelerService.deleteById(ctx.params.id);
 ctx.status = 204; // no content
+};
+deleteSpeler.validationScheme = {
+  params: {
+    id: Joi.number().integer().positive()
+  }
 };
 
 const updateSpeler = async(ctx) => {
@@ -27,14 +51,28 @@ ctx.body = await spelerService.updateById(ctx.params.id,
   {...ctx.request.body, geboortedatum: new Date(ctx.request.body.geboortedatum)});
 };
 
+updateSpeler.validationScheme = {
+  params: {
+    id: Joi.number().integer().positive()
+  },
+  body: {
+    naam: Joi.string().max(255),
+    gewicht: Joi.number().positive(),
+    lengte: Joi.number().positive(),
+    positie: Joi.string().max(255),
+    geboortedatum: Joi.date().iso().less('now'),
+    teamId: Joi.number().integer().positive()
+  }
+};
+
 module.exports = (app) => {
   const router = new Router({prefix: '/spelers'});
 
-  router.get('/', getSpelers);
-  router.get('/:id', getSpelerById);
-  router.post('/', createSpeler);
-  router.put('/:id', updateSpeler);
-  router.delete('/:id', deleteSpeler);
+  router.get('/', validate(getSpelers.validationScheme), getSpelers);
+  router.get('/:id', validate(getSpelerById.validationScheme), getSpelerById);
+  router.post('/', validate(createSpeler.validationScheme), createSpeler);
+  router.put('/:id', validate(updateSpeler.validationScheme), updateSpeler);
+  router.delete('/:id', validate(deleteSpeler.validationScheme), deleteSpeler);
 
   app
     .use(router.routes())

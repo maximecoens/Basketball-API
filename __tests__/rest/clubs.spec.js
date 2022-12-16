@@ -90,7 +90,6 @@ describe('clubs', () => {
 
     it('should return 201 and the newly created club', async () => {
       const response = await request.post(url).send({
-        clubId: 3,
         naam: "Antwerp Giants",
         voorzitter: "Filou",
         hoofdsponsor: "Filou",

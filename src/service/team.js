@@ -1,5 +1,6 @@
 const {getLogger} = require('../core/logging');
 const teamRepository = require('../repository/team');
+const ServiceError = require('../core/serviceError');
 
 const debugLog = (message, meta = {}) => {
   if (!this.logger) this.logger = getLogger();
@@ -14,20 +15,26 @@ const getAll = async () => {
 
 const getById =  async(teamId) => {
   debugLog(`Fetching team with id ${teamId}`);
-  return await teamRepository.getById(teamId);
+  const team = await teamRepository.getById(teamId);
+  if (!team) {
+    throw ServiceError.notFound(`there is no team with id ${teamId}`, {teamId});
+  };
+  return team;
 };
 
 const create = async ({naam, clubId}) => {
   debugLog(`Creating new team`, {naam, clubId});
-  return await teamRepository.create({
+  const teamId =  await teamRepository.create({
     naam,
     clubId
   });
+  return getById(teamId);
 };
 
 const updateById = async (teamId, {naam, clubId}) => {
   debugLog(`Updating team with id ${teamId}`, {naam, clubId});
-  return await teamRepository.updateById(teamId, {naam, clubId});
+  await teamRepository.updateById(teamId, {naam, clubId});
+  return getById(teamId);
 };
 
 const deleteById = async (teamId) => {

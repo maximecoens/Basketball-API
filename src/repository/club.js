@@ -28,7 +28,7 @@ const create = async ({naam, hoofdsponsor, voorzitter, locatie}) => {
       voorzitter,
       locatie
     });
-    return await getById(clubId);
+    return clubId;
   } catch (error) {
     const logger = getLogger();
     logger.error('Error in create', {error});

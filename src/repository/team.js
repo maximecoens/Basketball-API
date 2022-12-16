@@ -39,7 +39,7 @@ const create = async ({naam, clubId}) => {
       naam,
       clubId
     });
-    return await getById(teamId);
+    return teamId;
   } catch (error) {
     const logger = getLogger();
     logger.error('Error in create', {error});
