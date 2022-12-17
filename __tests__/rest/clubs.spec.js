@@ -53,13 +53,13 @@ describe('clubs', () => {
       const response = await request.get(url);
       expect(response.status).toBe(200);
       expect(response.body.items.length).toBeGreaterThanOrEqual(2);
-      expect(response.body.items[1]).toEqual({
-        clubId: 2,
-      naam: 'LDP Donza',
-      hoofdsponsor: 'Tegels',
-      voorzitter: 'papa Donza',
-      locatie: 'OCP, Deinze',
-      kampioenschappen: null
+      expect(response.body.items[0]).toEqual({
+        clubId: 1,
+        naam: 'Amon jeugd Gentson',
+        hoofdsponsor: 'Amon',
+        voorzitter: 'papa Gentson',
+        locatie: 'Henleykaai 83, Gent',
+        kampioenschappen: null
       });
     });
   });
@@ -84,7 +84,6 @@ describe('clubs', () => {
     let clubsToDelete = [];
 
     afterAll(async () => {
-      // delete alles in db
       await knex(tables.club).whereIn('clubId', clubsToDelete).delete();
     });
 

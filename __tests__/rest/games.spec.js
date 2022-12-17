@@ -134,7 +134,7 @@ describe('games', () => {
         uitTeamId: 7,
         scoreThuis: 99,
         scoreUit: 55,
-        datum: new Date(2022, 12, 5)
+        datum: '2022-05-12T13:00:00.000Z'
       });
 
       expect(response.status).toBe(201);
@@ -157,7 +157,7 @@ describe('games', () => {
         uitTeamId: 7,
         scoreThuis: 99,
         scoreUit: 55,
-        datum: new Date(2022, 12, 5)
+        datum: new Date(2022, 5, 12)
       }]);
     });
 
@@ -174,7 +174,7 @@ describe('games', () => {
           uitTeamId: 7,
           scoreThuis: 40,
           scoreUit: 55,
-          datum: new Date(2022, 12, 5)
+          datum: '2022-05-12T13:00:00.000Z'
         });
 
         expect(response.status).toBe(200);
