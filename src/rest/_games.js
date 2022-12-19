@@ -1,5 +1,9 @@
 const Router = require('@koa/router');
 const gameService = require('../service/game');
+const {
+  hasPermission,
+  permissions,
+} = require('../core/auth');
 const Joi = require('joi');
 const validate = require('./_validation');
 
@@ -70,11 +74,11 @@ updateGame.validationScheme = {
 module.exports = (app) => {
   const router = new Router({prefix: '/games'});
 
-  router.get('/', validate(getGames.validationScheme), getGames);
-  router.get('/:id', validate(getGameById.validationScheme), getGameById);
-  router.post('/', validate(createGame.validationScheme), createGame);
-  router.put('/:id', validate(updateGame.validationScheme), updateGame);
-  router.delete('/:id', validate(deleteGame.validationScheme), deleteGame);
+  router.get('/', hasPermission(permissions.read), validate(getGames.validationScheme), getGames);
+  router.get('/:id', hasPermission(permissions.read), validate(getGameById.validationScheme), getGameById);
+  router.post('/', hasPermission(permissions.write), validate(createGame.validationScheme), createGame);
+  router.put('/:id', hasPermission(permissions.write), validate(updateGame.validationScheme), updateGame);
+  router.delete('/:id', hasPermission(permissions.write), validate(deleteGame.validationScheme), deleteGame);
 
   app
     .use(router.routes())

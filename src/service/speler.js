@@ -24,7 +24,21 @@ const getById = async (spelerId) => {
   return speler;
 };
 
-const create = async ({naam, gewicht, lengte, positie, geboortedatum, teamId}) => {
+const getByAuth0Id = async (auth0id) => {
+  debugLog(`Fetching user with auth0id ${auth0id}`);
+  const speler = await spelerRepository.findByAuth0Id(auth0id);
+
+  if (!speler) {
+    throw ServiceError.notFound(`No player with id ${auth0id} exists`, {
+      auth0id,
+    });
+  }
+
+  return speler;
+};
+
+
+const register = async ({naam, gewicht, lengte, positie, geboortedatum, teamId, auth0id}) => {
   debugLog(`Creating new player`, {naam, gewicht, lengte, positie, geboortedatum, teamId});
   const spelerId = await spelerRepository.create({
     naam,
@@ -32,7 +46,8 @@ const create = async ({naam, gewicht, lengte, positie, geboortedatum, teamId}) =
     lengte,
     positie,
     geboortedatum,
-    teamId});
+    teamId,
+    auth0id});
   return getById(spelerId);
 };
 
@@ -47,5 +62,5 @@ const deleteById = async (spelerId) => {
   await spelerRepository.deleteById(spelerId);
 };
 
-module.exports={getAll, getById, create, updateById, deleteById};
+module.exports={getAll, getById, create: register, updateById, deleteById, getByAuth0Id};
 

@@ -1,4 +1,8 @@
 const Router = require('@koa/router');
+const {
+  hasPermission,
+  permissions,
+} = require('../core/auth');
 const spelerService = require('../service/speler');
 const Joi = require('joi');
 const validate = require('./_validation');
@@ -68,11 +72,11 @@ updateSpeler.validationScheme = {
 module.exports = (app) => {
   const router = new Router({prefix: '/spelers'});
 
-  router.get('/', validate(getSpelers.validationScheme), getSpelers);
-  router.get('/:id', validate(getSpelerById.validationScheme), getSpelerById);
-  router.post('/', validate(createSpeler.validationScheme), createSpeler);
-  router.put('/:id', validate(updateSpeler.validationScheme), updateSpeler);
-  router.delete('/:id', validate(deleteSpeler.validationScheme), deleteSpeler);
+  router.get('/', hasPermission(permissions.read), validate(getSpelers.validationScheme), getSpelers);
+  router.get('/:id', hasPermission(permissions.read), validate(getSpelerById.validationScheme), getSpelerById);
+  router.post('/', hasPermission(permissions.write), validate(createSpeler.validationScheme), createSpeler);
+  router.put('/:id', hasPermission(permissions.write), validate(updateSpeler.validationScheme), updateSpeler);
+  router.delete('/:id', hasPermission(permissions.write), validate(deleteSpeler.validationScheme), deleteSpeler);
 
   app
     .use(router.routes())

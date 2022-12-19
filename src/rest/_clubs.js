@@ -1,5 +1,9 @@
 const Router = require('@koa/router');
 const clubService = require('../service/club');
+const {
+  hasPermission,
+  permissions,
+} = require('../core/auth');
 const Joi = require('joi');
 const validate = require('./_validation');
 
@@ -62,11 +66,11 @@ updateClub.validationScheme = {
 module.exports = (app) => {
   const router = new Router({prefix: '/clubs'});
   
-  router.get('/', validate(getClubs.validationScheme), getClubs);
-  router.get('/:id', validate(getClubById.validationScheme), getClubById); // eerst validatie vindt plaats daarna naar endpoint gestuurd
-  router.post('/', validate(createClub.validationScheme), createClub);
-  router.put('/:id', validate(updateClub.validationScheme), updateClub);
-  router.delete('/:id', validate(deleteClub.validationScheme), deleteClub);
+  router.get('/', hasPermission(permissions.read), validate(getClubs.validationScheme), getClubs);
+  router.get('/:id', hasPermission(permissions.read), validate(getClubById.validationScheme), getClubById); // eerst validatie vindt plaats daarna naar endpoint gestuurd
+  router.post('/', hasPermission(permissions.write), validate(createClub.validationScheme), createClub);
+  router.put('/:id', hasPermission(permissions.write), validate(updateClub.validationScheme), updateClub);
+  router.delete('/:id', hasPermission(permissions.write), validate(deleteClub.validationScheme), deleteClub);
 
   app
     .use(router.routes())

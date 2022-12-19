@@ -29,7 +29,14 @@ const getById = async(spelerId) => {
   // alleen als speler gevonden wordt, geformateerd
 };
 
-const create = async({naam, gewicht, lengte, positie, geboortedatum, teamId}) => {
+const findByAuth0Id = async (auth0id) => {
+  return await getKnex()(tables.speler)
+    .where('auth0id', auth0id)
+    .first();
+};
+
+
+const create = async({naam, gewicht, lengte, positie, geboortedatum, teamId, auth0id}) => {
   try {
     const [spelerId] = await getKnex() (tables.speler)
     .insert({
@@ -38,7 +45,8 @@ const create = async({naam, gewicht, lengte, positie, geboortedatum, teamId}) =>
       lengte,
       positie,
       geboortedatum,
-      teamId});
+      teamId,
+      auth0id});
     return spelerId;
   } catch (error) {
     const logger = getLogger();
@@ -47,7 +55,7 @@ const create = async({naam, gewicht, lengte, positie, geboortedatum, teamId}) =>
   }
 };
 
-const updateById = async (spelerdId, {naam, gewicht, lengte, positie, geboortedatum, teamId}) => {
+const updateById = async (spelerdId, {naam, gewicht, lengte, positie, geboortedatum, teamId, auth0id}) => {
   try {
     await getKnex() (tables.speler)
     .update({
@@ -56,7 +64,8 @@ const updateById = async (spelerdId, {naam, gewicht, lengte, positie, geboorteda
       lengte,
       positie,
       geboortedatum,
-      teamId
+      teamId,
+      auth0id
     })
     .where('spelerId', spelerdId);
     return await getById(spelerdId);
@@ -79,4 +88,4 @@ const getCount = async () => {
   return count['COUNT(*)'];
 };
 
-module.exports = {getAll, getById, create, updateById, deleteById, getCount};
+module.exports = {getAll, getById, create, updateById, deleteById, getCount, findByAuth0Id};

@@ -3,6 +3,8 @@ const teamService = require('../service/team');
 const Joi = require("joi");
 const validate = require('./_validation');
 
+const {permissions, hasPermission} = require('../core/auth');
+
 const getTeams = async(ctx) => {
   ctx.body = await teamService.getAll();
 };
@@ -55,14 +57,14 @@ updateTeam.validationScheme = {
 module.exports = (app) => {
   const router = new Router({prefix: '/teams'});
 
-  router.get('/', validate(getTeams.validationScheme), getTeams);
-  router.get('/:id', validate(getTeamById.validationScheme), getTeamById);
-  router.post('/', validate(createTeam.validationScheme), createTeam);
-  router.put('/:id', validate(updateTeam.validationScheme), updateTeam);
-  router.delete('/:id', validate(deleteTeam.validationScheme), deleteTeam);
+  router.get('/', hasPermission(permissions.loggedIn), validate(getTeams.validationScheme), getTeams);
+  router.get('/:id', hasPermission(permissions.loggedIn), validate(getTeamById.validationScheme), getTeamById);
+  router.post('/', hasPermission(permissions.write), validate(createTeam.validationScheme), createTeam);
+  router.put('/:id', hasPermission(permissions.write), validate(updateTeam.validationScheme), updateTeam);
+  router.delete('/:id', hasPermission(permissions.write), validate(deleteTeam.validationScheme), deleteTeam);
 
   app
     .use(router.routes())
     .use(router.allowedMethods()); // juiste foutmelingen enzo zie documentatie
 
-}
+};

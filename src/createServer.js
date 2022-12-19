@@ -8,6 +8,7 @@ const koaCors = require('@koa/cors');
 const emoji = require('node-emoji');
 const { serializeError } = require('serialize-error');
 const ServiceError = require('./core/serviceError');
+const {checkJwtToken} = require('./core/auth');
 
 const NODE_ENV = config.get('env');
 const CORS_ORIGINS = config.get('cors.origins');
@@ -27,6 +28,15 @@ module.exports = async function createServer () {
 
 	const app = new Koa();
 	const logger = getLogger();
+
+	app.use(checkJwtToken());
+
+	app.use(async (ctx, next) => {
+		logger.debug(`token: ${ctx.headers.authorization}`);
+		logger.debug(`current user: ${JSON.stringify(ctx.state.user)}`);
+		logger.debug(`error in token: ${ctx.state.jwtOriginalError}`);
+		await next();
+	});
 
 	app.use(
 		koaCors({
@@ -112,6 +122,13 @@ module.exports = async function createServer () {
 					statusCode = 403;
 				}
 			}
+
+			if (ctx.state.jwtOriginalError) {
+				statusCode = 401;
+				errorBody.code = 'UNAUTHORIZED';
+				errorBody.message = ctx.state.jwtOriginalError.message;
+				errorBody.details.jwtOriginalError = serializeError(ctx.state.jwtOriginalError);
+			}
 	
 			ctx.status = statusCode;
 			ctx.body = errorBody;
@@ -137,4 +154,4 @@ module.exports = async function createServer () {
 			getLogger().info('Goodbye');
 		}
   };
-}
+};
