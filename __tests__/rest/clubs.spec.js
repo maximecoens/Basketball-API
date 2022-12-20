@@ -1,6 +1,7 @@
-const createServer = require("../../src/createServer");
 const supertest = require('supertest');
 const {getKnex, tables} = require("../../src/data");
+const {withServer} = require('../helpers');
+
 
 const data = {
   clubs: [
@@ -26,18 +27,14 @@ const dataToDelete = {
 };
 
 describe('clubs', () => {
-  let server;
   let request;
   let knex;
+  let authHeader;
 
-  beforeAll(async () => {
-    server = await createServer();
-    request = supertest(server.getApp().callback()); // callback zorgt voor request te kunnen sturen
-    knex = getKnex();
-  });
-
-  afterAll(async () => {
-    await server.stop();
+  withServer(({ knex: k, request: r, authHeader: a }) => {
+    knex = k;
+    request = r;
+    authHeader = a;
   });
 
   const url = '/api/clubs'
@@ -50,7 +47,7 @@ describe('clubs', () => {
       await knex(tables.club).whereIn('clubId', dataToDelete.clubs).delete();
     }); 
     it('should return 200 and all clubs', async () => {
-      const response = await request.get(url);
+      const response = await request.get(url).set('Authorization', authHeader);
       expect(response.status).toBe(200);
       expect(response.body.items.length).toBeGreaterThanOrEqual(2);
       expect(response.body.items[0]).toEqual({
@@ -74,7 +71,8 @@ describe('clubs', () => {
     });
 
     it('it should return 200 and return the requested club', async () => {
-      const response = await request.get(`${url}/${data.clubs[0].clubId}`);
+      const response = await request.get(`${url}/${data.clubs[0].clubId}`)
+      .set('Authorization', authHeader);
       expect(response.status).toBe(200);
       expect(response.body).toEqual(data.clubs[0]);
     });
@@ -88,7 +86,9 @@ describe('clubs', () => {
     });
 
     it('should return 201 and the newly created club', async () => {
-      const response = await request.post(url).send({
+      const response = await request.post(url)
+      .set('Authorization', authHeader)
+      .send({
         naam: "Antwerp Giants",
         voorzitter: "Filou",
         hoofdsponsor: "Filou",
@@ -116,6 +116,7 @@ describe('clubs', () => {
 
     it('it should return 200 and return the updated club', async () => {
       const response = await request.put(`${url}/${data.clubs[0].clubId}`)
+      .set('Authorization', authHeader)
       .send({
         naam: "Changed name",
         locatie: "Changed location",
@@ -140,7 +141,8 @@ describe('clubs', () => {
     });
 
     it('it should return 204 and return nothing', async () => {
-      const response = await request.delete(`${url}/${data.clubs[0].clubId}`);
+      const response = await request.delete(`${url}/${data.clubs[0].clubId}`)
+      .set('Authorization', authHeader);
       expect(response.status).toBe(204);
       expect(response.body).toEqual({});
     });

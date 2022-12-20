@@ -1,6 +1,6 @@
-const createServer = require("../../src/createServer");
 const supertest = require('supertest');
 const {getKnex, tables} = require("../../src/data");
+const {withServer} = require('../helpers');
 
 const data = {
   teams: [
@@ -51,18 +51,14 @@ const dataToDelete = {
 };
 
 describe('games', () => {
-  let server;
   let request;
   let knex;
+  let authHeader;
 
-  beforeAll(async () => {
-    server = await createServer();
-    request = supertest(server.getApp().callback()); // callback zorgt voor request te kunnen sturen
-    knex = getKnex();
-  });
-
-  afterAll(async () => {
-    await server.stop();
+  withServer(({ knex: k, request: r, authHeader: a }) => {
+    knex = k;
+    request = r;
+    authHeader = a;
   });
 
   const url = '/api/games';
@@ -81,7 +77,7 @@ describe('games', () => {
     });
 
     it('should return 200 and return all games', async () => {
-      const response = await request.get(url);
+      const response = await request.get(url).set('Authorization', authHeader);
       expect(response.status).toBe(200);
       expect(response.body.items.length).toBe(1);
     });
@@ -100,7 +96,8 @@ describe('games', () => {
     });
 
     it('it should return 200 and return the requested game', async () => {
-      const response = await request.get(`${url}/${data.games[0].gameId}`);
+      const response = await request.get(`${url}/${data.games[0].gameId}`)
+      .set('Authorization', authHeader);
       expect(response.status).toBe(200);
     });
   });
@@ -128,6 +125,7 @@ describe('games', () => {
 
     it('should return 201 and return the newly created game', async () => {
       const response = await request.post(url)
+      .set('Authorization', authHeader)
       .send({
         locatie: 'OCP, Deinze',
         thuisTeamId: 8,
@@ -168,7 +166,9 @@ describe('games', () => {
       });
 
       it('should return 200 and return the updated game', async () => {
-        const response = await request.put(`${url}/2`).send({
+        const response = await request.put(`${url}/2`)
+        .set('Authorization', authHeader)
+        .send({
           locatie: 'OCP, Deinze',
           thuisTeamId: 8,
           uitTeamId: 7,
@@ -206,7 +206,7 @@ describe('games', () => {
       });
 
       it('should respond 204 and return nothing', async () => {
-        const response = await request.delete(`${url}/2`);
+        const response = await request.delete(`${url}/2`).set('Authorization', authHeader);
         expect(response.status).toBe(204);
         expect(response.body).toEqual({});
       });

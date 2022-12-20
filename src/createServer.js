@@ -29,15 +29,6 @@ module.exports = async function createServer () {
 	const app = new Koa();
 	const logger = getLogger();
 
-	app.use(checkJwtToken());
-
-	app.use(async (ctx, next) => {
-		logger.debug(`token: ${ctx.headers.authorization}`);
-		logger.debug(`current user: ${JSON.stringify(ctx.state.user)}`);
-		logger.debug(`error in token: ${ctx.state.jwtOriginalError}`);
-		await next();
-	});
-
 	app.use(
 		koaCors({
 			origin: (ctx) => {
@@ -51,6 +42,16 @@ module.exports = async function createServer () {
 			maxAge: CORS_MAX_AGE,
 		})
 	);
+
+	app.use(checkJwtToken());
+
+	app.use(async (ctx, next) => {
+		logger.debug(`token: ${ctx.headers.authorization}`);
+		logger.debug(`current user: ${JSON.stringify(ctx.state.user)}`);
+		logger.debug(`error in token: ${ctx.state.jwtOriginalError}`);
+		await next();
+	});
+
 	app.use(bodyParser());
 
 	app.use(async (ctx, next) => {

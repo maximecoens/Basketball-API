@@ -2,6 +2,7 @@ const Router = require('@koa/router');
 const {
   hasPermission,
   permissions,
+  addUserInfo,
 } = require('../core/auth');
 const spelerService = require('../service/speler');
 const Joi = require('joi');
@@ -13,7 +14,10 @@ const getSpelers = async(ctx) => {
 getSpelers.validationScheme = null;
 
 const createSpeler = async(ctx) => {
-ctx.body = await spelerService.create({
+  await addUserInfo(ctx);
+  ctx.body = await spelerService.register({
+    auth0id: ctx.state.user.sub,
+    naam: ctx.state.user.name,
   ...ctx.request.body,
   geboortedatum: new Date(ctx.request.body.geboortedatum)
   }); // wat men meegeeft destructioning
@@ -72,7 +76,7 @@ updateSpeler.validationScheme = {
 module.exports = (app) => {
   const router = new Router({prefix: '/spelers'});
 
-  router.get('/', hasPermission(permissions.read), validate(getSpelers.validationScheme), getSpelers);
+  router.get('/', hasPermission(permissions.loggedIn), validate(getSpelers.validationScheme), getSpelers);
   router.get('/:id', hasPermission(permissions.read), validate(getSpelerById.validationScheme), getSpelerById);
   router.post('/', hasPermission(permissions.write), validate(createSpeler.validationScheme), createSpeler);
   router.put('/:id', hasPermission(permissions.write), validate(updateSpeler.validationScheme), updateSpeler);

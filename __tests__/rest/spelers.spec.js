@@ -1,17 +1,19 @@
-const createServer = require("../../src/createServer");
 const supertest = require('supertest');
 const {getKnex, tables} = require("../../src/data");
+const {withServer} = require('../helpers');
+const { config } = require('config');
 
 const data = {
   spelers: [
     {
       spelerId: 1, 
-    naam: 'Maxime Coens', 
+    naam: config.get('auth.testUser.username'), 
     gewicht: 73.2, 
     lengte: 183, 
     positie: 'shooting guard', 
     geboortedatum: new Date(2002, 8, 27),
-    teamId: 5
+    teamId: 5,
+    auth0id: config.get('auth.testUser.spelerId')
     },
     {
       spelerId: 2, 
@@ -69,18 +71,14 @@ const dataToDelete = {
 };
 
 describe('spelers', () => {
-  let server;
   let request;
   let knex;
+  let authHeader;
 
-  beforeAll(async () => {
-    server = await createServer();
-    request = supertest(server.getApp().callback()); // callback zorgt voor request te kunnen sturen
-    knex = getKnex();
-  });
-
-  afterAll(async () => {
-    await server.stop();
+  withServer(({ knex: k, request: r, authHeader: a }) => {
+    knex = k;
+    request = r;
+    authHeader = a;
   });
 
   const url = '/api/spelers';
@@ -99,7 +97,7 @@ describe('spelers', () => {
     });
 
     it('should return 200 and return all players', async () => {
-      const response = await request.get(url);
+      const response = await request.get(url).set('Authorization', authHeader);
       expect(response.status).toBe(200);
       expect(response.body.items.length).toBe(3);
     });
@@ -118,7 +116,8 @@ describe('spelers', () => {
     });
 
     it('it should return 200 and return the requested player', async () => {
-      const response = await request.get(`${url}/${data.spelers[0].spelerId}`);
+      const response = await request.get(`${url}/${data.spelers[0].spelerId}`)
+      .set('Authorization', authHeader);
       expect(response.status).toBe(200);
     });
   });
@@ -146,6 +145,7 @@ describe('spelers', () => {
 
     it('should return 201 and return the newly created player', async () => {
       const response = await request.post(url)
+      .set('Authorization', authHeader)
       .send({ 
         naam: 'Test Player', 
         gewicht: 73.2, 
@@ -188,7 +188,9 @@ describe('spelers', () => {
       });
 
       it('should return 200 and return the updated speler', async () => {
-        const response = await request.put(`${url}/5`).send({
+        const response = await request.put(`${url}/5`)
+        .set('Authorization', authHeader)
+        .send({
         naam: 'Test Player 5.1', 
         gewicht: 73.2, 
         lengte: 183, 
@@ -231,7 +233,7 @@ describe('spelers', () => {
       });
 
       it('should respond 204 and return nothing', async () => {
-        const response = await request.delete(`${url}/6`);
+        const response = await request.delete(`${url}/6`).set('Authorization', authHeader);
         expect(response.status).toBe(204);
         expect(response.body).toEqual({});
       });

@@ -62,5 +62,5 @@ const deleteById = async (spelerId) => {
   await spelerRepository.deleteById(spelerId);
 };
 
-module.exports={getAll, getById, create: register, updateById, deleteById, getByAuth0Id};
+module.exports={getAll, getById, register, updateById, deleteById, getByAuth0Id};
 

@@ -1,6 +1,6 @@
-const createServer = require("../../src/createServer");
 const supertest = require('supertest');
 const {getKnex, tables} = require("../../src/data");
+const {withServer} = require('../helpers');
 
 const data = {
   teams: [
@@ -39,18 +39,14 @@ const dataToDelete = {
 };
 
 describe('teams', () => {
-  let server;
   let request;
   let knex;
+  let authHeader;
 
-  beforeAll(async () => {
-    server = await createServer();
-    request = supertest(server.getApp().callback()); // callback zorgt voor request te kunnen sturen
-    knex = getKnex();
-  });
-
-  afterAll(async () => {
-    await server.stop();
+  withServer(({ knex: k, request: r, authHeader: a }) => {
+    knex = k;
+    request = r;
+    authHeader = a;
   });
 
   const url = '/api/teams';
@@ -67,7 +63,7 @@ describe('teams', () => {
     });
 
     it('should return 200 and return all teams', async () => {
-      const response = await request.get(url);
+      const response = await request.get(url).set('Authorization', authHeader);
       expect(response.status).toBe(200);
       expect(response.body.items.length).toBeGreaterThanOrEqual(2);
       expect(response.body.items[1]).toEqual({
@@ -91,7 +87,8 @@ describe('teams', () => {
     });
 
     it('it should return 200 and return the requested team', async () => {
-      const response = await request.get(`${url}/${data.teams[0].teamId}`);
+      const response = await request.get(`${url}/${data.teams[0].teamId}`)
+      .set('Authorization', authHeader);
       expect(response.status).toBe(200);
     });
   });
@@ -99,7 +96,6 @@ describe('teams', () => {
   describe('POST /api/teams', () => {
     const teamsToDelete = [];
 
-    //TODO: hoeft er niet bij?
     beforeAll(async () => {
       await knex(tables.club).insert(data.clubs);
     });
@@ -116,6 +112,7 @@ describe('teams', () => {
 
     it('should return 201 and return the newly created team', async () => {
       const response = await request.post(url)
+      .set('Authorization', authHeader)
       .send({
       naam: 'Amon Jeugd Gentson U18',
       clubId: 3
@@ -151,7 +148,9 @@ describe('teams', () => {
       });
 
       it('should return 200 and return the updated team', async () => {
-        const response = await request.put(`${url}/4`).send({
+        const response = await request.put(`${url}/4`)
+        .set('Authorization', authHeader)
+        .send({
           naam: "Amon Jeugd Gentson Heren B",
           clubId: 3
         });
@@ -185,7 +184,7 @@ describe('teams', () => {
       });
 
       it('should respond 204 and return nothing', async () => {
-        const response = await request.delete(`${url}/3`);
+        const response = await request.delete(`${url}/3`).set('Authorization', authHeader);
         expect(response.status).toBe(204);
         expect(response.body).toEqual({});
       });
