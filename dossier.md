@@ -1,8 +1,5 @@
 # Maxime Coens (202186204)
 
-> Duid aan welke vakken je volgt en vermeld voor deze vakken de link naar jouw GitHub repository. In het geval je slechts één vak volgt, verwijder alle inhoud omtrent het andere vak.
-> Verwijder alle instructies (lijnen die starten met >)
-
 - [ ] Front-end Web Development
   - [GitHub repository](github.com/HOGENT-Web)
   - [Online versie](github.com/HOGENT-Web)
@@ -12,7 +9,7 @@
 
 **Logingegevens**
 
-- Gebruikersnaam/e-mailadres:
+- Gebruikersnaam/e-mailadres: 
 - Wachtwoord:
 
 > Vul eventueel aan met extra accounts voor administrators of andere rollen.
