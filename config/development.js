@@ -11,9 +11,9 @@ module.exports = {
   },
 
   database: {
-    host : 'vichogent.be',
-    port : 40043,
-    database : '186204mc',
+    host : 'localhost',
+    port : 3306,
+    database : 'sportapp',
     client: 'mysql2'
   }
 }
