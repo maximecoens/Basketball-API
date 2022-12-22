@@ -32,6 +32,7 @@ Een speler kan zich registreren aan de hand van een team dat hij zichzelf kan in
 Een speler die de rol admin heeft kan specifiek teams, clubs en games aanmaken, verwijderen en updaten.
 
 **ERD**
+<br />
 ![image](https://user-images.githubusercontent.com/84249943/209184565-3a9aa59b-8f59-446d-a52b-4dd79ea52980.png)
 
 
