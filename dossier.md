@@ -17,6 +17,9 @@
 ## Projectbeschrijving
 
 > Omschrijf hier duidelijk waarover jouw project gaat. Voeg een domeinmodel (of EERD) toe om jouw entiteiten te verduidelijken.
+ERD
+![image](https://user-images.githubusercontent.com/84249943/209184565-3a9aa59b-8f59-446d-a52b-4dd79ea52980.png)
+
 
 ## Screenshots
 
