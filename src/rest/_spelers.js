@@ -18,8 +18,8 @@ const createSpeler = async(ctx) => {
   ctx.body = await spelerService.register({
     auth0id: ctx.state.user.sub,
     naam: ctx.state.user.name,
-  ...ctx.request.body,
-  geboortedatum: new Date(ctx.request.body.geboortedatum)
+    ...ctx.request.body,
+    geboortedatum: new Date(ctx.request.body.geboortedatum)
   }); // wat men meegeeft destructioning
 ctx.status = 201;
 };
@@ -76,7 +76,7 @@ updateSpeler.validationScheme = {
 module.exports = (app) => {
   const router = new Router({prefix: '/spelers'});
 
-  router.get('/', hasPermission(permissions.loggedIn), validate(getSpelers.validationScheme), getSpelers);
+  router.get('/', hasPermission(permissions.read), validate(getSpelers.validationScheme), getSpelers);
   router.get('/:id', hasPermission(permissions.read), validate(getSpelerById.validationScheme), getSpelerById);
   router.post('/', hasPermission(permissions.write), validate(createSpeler.validationScheme), createSpeler);
   router.put('/:id', hasPermission(permissions.write), validate(updateSpeler.validationScheme), updateSpeler);

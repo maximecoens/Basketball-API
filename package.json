@@ -3,7 +3,8 @@
     "testPathIgnorePatterns": [
       "src",
       "node_modules",
-      "config"
+      "config",
+      "__tests__/helpers.js"
     ]
   },
   "scripts": {

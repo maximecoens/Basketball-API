@@ -2,7 +2,7 @@ const {getKnex, tables} = require('../data/index');
 const {getLogger} = require('../core/logging');
 
 const SELECT_COLUMNS = [
-  `${tables.speler}.spelerId`, `${tables.speler}.naam`, 'gewicht', 'lengte', 'positie', 'geboortedatum',
+  `${tables.speler}.spelerId`, 'auth0id', `${tables.speler}.naam`, 'gewicht', 'lengte', 'positie', 'geboortedatum',
   `${tables.team}.teamId`, `${tables.team}.naam as teamnaam`
 ];
 

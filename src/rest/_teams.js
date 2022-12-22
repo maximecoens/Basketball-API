@@ -57,8 +57,8 @@ updateTeam.validationScheme = {
 module.exports = (app) => {
   const router = new Router({prefix: '/teams'});
 
-  router.get('/', hasPermission(permissions.loggedIn), validate(getTeams.validationScheme), getTeams);
-  router.get('/:id', hasPermission(permissions.loggedIn), validate(getTeamById.validationScheme), getTeamById);
+  router.get('/', hasPermission(permissions.read), validate(getTeams.validationScheme), getTeams);
+  router.get('/:id', hasPermission(permissions.read), validate(getTeamById.validationScheme), getTeamById);
   router.post('/', hasPermission(permissions.write), validate(createTeam.validationScheme), createTeam);
   router.put('/:id', hasPermission(permissions.write), validate(updateTeam.validationScheme), updateTeam);
   router.delete('/:id', hasPermission(permissions.write), validate(deleteTeam.validationScheme), deleteTeam);
