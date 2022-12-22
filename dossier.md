@@ -1,8 +1,5 @@
 # Maxime Coens (202186204)
 
-> Duid aan welke vakken je volgt en vermeld voor deze vakken de link naar jouw GitHub repository. In het geval je slechts één vak volgt, verwijder alle inhoud omtrent het andere vak.
-> Verwijder alle instructies (lijnen die starten met >)
-
 - [ ] Front-end Web Development
   - [GitHub repository](github.com/HOGENT-Web)
   - [Online versie](github.com/HOGENT-Web)
@@ -12,14 +9,32 @@
 
 **Logingegevens**
 
-- Gebruikersnaam/e-mailadres:
-- Wachtwoord:
+Gebruiker ADMIN:
+- Gebruikersnaam/e-mailadres: admin@sportapp.be
+- Wachtwoord: Admin123
 
-> Vul eventueel aan met extra accounts voor administrators of andere rollen.
+Gebruiker TESTER:
+- Gebruikersnaam/e-mailadres: e2e-testing@sportapp.be
+- Wachtwoord: Tester123
+
+Gebruiker USER:
+- Gebruikersnaam/e-mailadres: user@sportapp.be
+- Wachtwoord: Sportappuser123
 
 ## Projectbeschrijving
 
-> Omschrijf hier duidelijk waarover jouw project gaat. Voeg een domeinmodel (of EERD) toe om jouw entiteiten te verduidelijken.
+Over dit semester heen heb ik een API gemaakt in NodeJS. Aangezien ik enkel het vak Web Services opneem, heb ik geen Front-end en zal mijn gemaakte API niet als back-end kunnen werken voor een zelf gemaakte Front-end.
+Ik heb er voor gekozen een API te maken in de lijn met mijn passie, sport/basketbal.
+Er zijn vier tabellen gemaakt in het ERD (zoals je ziet in de foto hier onder): clubs, teams, spelers en games.
+De API bevat dus gegevens over spelers of sporters die aan een sport doen in clubverband.
+Hierbij heb ik er voor gekozen dit specifiek voor basketbal te maken.
+Een speler kan zich registreren aan de hand van een team dat hij zichzelf kan in plaatsen, dit team behoort tot een club en heeft de mogelijkheid om games te spelen. Deze games bestaan door 2 teams die tegen elkaar zullen spelen.
+Een speler die de rol admin heeft kan specifiek teams, clubs en games aanmaken, verwijderen en updaten.
+
+**ERD**
+<br />
+![image](https://user-images.githubusercontent.com/84249943/209184565-3a9aa59b-8f59-446d-a52b-4dd79ea52980.png)
+
 
 ## Screenshots
 
@@ -27,9 +42,9 @@
 
 ## Behaalde minimumvereisten
 
-> Duid per vak aan welke minimumvereisten je denkt behaald te hebben
-
 ### Front-end Web Development
+
+Aangezien ik geen Front-end doe worden volgende velden opengelaten.
 
 - **componenten**
 
@@ -69,46 +84,42 @@
 
 - **datalaag**
 
-  - [ ] voldoende complex (meer dan één tabel)
-  - [ ] één module beheert de connectie + connectie wordt gesloten bij sluiten server
-  - [ ] heeft migraties
-  - [ ] heeft seeds
+  - [x] voldoende complex (meer dan één tabel)
+  - [x] één module beheert de connectie + connectie wordt gesloten bij sluiten server
+  - [x] heeft migraties
+  - [x] heeft seeds
 <br />
 
 - **repositorylaag**
 
-  - [ ] definieert één repository per entiteit (niet voor tussentabellen) - indien van toepassing
-  - [ ] mapt OO-rijke data naar relationele tabellen en vice versa
+  - [x] definieert één repository per entiteit (niet voor tussentabellen) - indien van toepassing
+  - [x] mapt OO-rijke data naar relationele tabellen en vice versa
 <br />
 
 - **servicelaag met een zekere complexiteit**
 
-  - [ ] bevat alle domeinlogica
-  - [ ] bevat geen SQL-queries of databank-gerelateerde code
+  - [x] bevat alle domeinlogica
+  - [x] bevat geen SQL-queries of databank-gerelateerde code
 <br />
 
 - **REST-laag**
 
-  - [ ] meerdere routes met invoervalidatie
-  - [ ] degelijke foutboodschappen
-  - [ ] volgt de conventies van een RESTful API
-  - [ ] bevat geen domeinlogica
-  - [ ] degelijke authorisatie/authenticatie op alle routes
+  - [x] meerdere routes met invoervalidatie
+  - [x] degelijke foutboodschappen
+  - [x] volgt de conventies van een RESTful API
+  - [x] bevat geen domeinlogica
+  - [x] degelijke authorisatie/authenticatie op alle routes
 <br />
 
 - **varia**
-  - [ ] een aantal niet-triviale testen (min. 1 controller >=80% coverage)
-  - [ ] minstens één extra technologie
-  - [ ] duidelijke en volledige `README.md`
-  - [ ] maakt gebruik van de laatste ES6-features (object destructuring, spread operator...)
-  - [ ] volledig en tijdig ingediend dossier
+  - [x] een aantal niet-triviale testen (min. 1 controller >=80% coverage)
+  - [x] minstens één extra technologie
+  - [x] duidelijke en volledige `README.md`
+  - [x] maakt gebruik van de laatste ES6-features (object destructuring, spread operator...)
+  - [x] volledig en tijdig ingediend dossier
 
 
 ## Projectstructuur
-
-### Front-end Web Development
-
-> Hoe heb je jouw applicatie gestructureerd (mappen, design patterns, hiërarchie van componenten, state...)?
 
 ### Web Services
 
@@ -116,42 +127,22 @@
 
 ## Extra technologie
 
-### Front-end Web Development
-
-> Wat is de extra technologie? Hoe werkt het? Voeg een link naar het npm package toe!
-
 ### Web Services
 
 > Wat is de extra technologie? Hoe werkt het? Voeg een link naar het npm package toe!
 
 ## Testresultaten
 
-### Front-end Web Development
-
-> Schrijf hier een korte oplijsting en beschrijving van de geschreven testen
-
 ### Web Services
 
-> Schrijf hier een korte oplijsting en beschrijving van de geschreven testen + voeg een screenshot van de coverage en uitvoering toe
+Van teams, clubs en games werden voor voor elke table de GET, GET /:id, POST, PUT en DELETE HTTPS methods getest op de juiste werking van deze methodes.
+Bij spelers werden enkel de GET, GET /:id en DELETE HTTPS methods getest.
+Aan de hand van mock data die telkens in de database 186204mc_test werd geplaatst, werden enkele opties getest zoals: de juiste status weergeven bij een request, zorgen dat alle data juist werd teruggegeven bij de methodes door het kijken naar de body van het response.
+![image](https://user-images.githubusercontent.com/84249943/209231913-8b9c1351-0fba-409f-a861-237b7cf71587.png)
+
 
 ## Gekende bugs
 
-### Front-end Web Development
-
-> Zijn er gekende bugs?
-
 ### Web Services
 
 > Zijn er gekende bugs?
-
-## Wat is er verbeterd/aangepast?
-
-> Deze sectie is enkel voor 2e zittijd, verwijder deze in 1e zittijd.
-
-### Front-end Web Development
-
-- Dit en dat
-
-### Web Services
-
-- Oh en dit ook
