@@ -1,5 +1,4 @@
-const supertest = require('supertest');
-const {getKnex, tables} = require("../../src/data");
+const {tables} = require("../../src/data");
 const {withServer} = require('../helpers');
 
 
