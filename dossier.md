@@ -129,7 +129,11 @@ Aangezien ik geen Front-end doe worden volgende velden opengelaten.
 
 ### Web Services
 
-> Wat is de extra technologie? Hoe werkt het? Voeg een link naar het npm package toe!
+Als extra technologie heb ik gekozen voor `Swagger`,  dit is een technologie, waarmee je jouw API-structuur kunt beschrijven en lezen. Hier werd er dus een interactieve API-documentatie gebouwd. Via de `Swagger UI` krijgen we een duidelijker beeld van hoe de API in elkaar zit aan de hand van voorbeelden, probeermogelijkheden van requests, ...
+
+**npm packages**
+- Swagger: https://www.npmjs.com/package/swagger
+- Swagger UI: https://www.npmjs.com/package/swagger-ui
 
 ## Testresultaten
 
@@ -145,4 +149,5 @@ Aan de hand van mock data die telkens in de database 186204mc_test werd geplaats
 
 ### Web Services
 
-> Zijn er gekende bugs?
+**Meertaligheid**
+De code van de backend staat niet geschreven in 1 taal. Dit is een combinatie van Nederlands en Engels. De code zelf werd in het engels geschreven maar enkele Error messages en andere loggings werden in het Nederlands geschreven.
