@@ -5,7 +5,7 @@ module.exports = {
     disabled: false
   },
   cors: {
-    origins: ['http://localhost:3000'],
+    origins: ['https://sport-applicatie.onrender.com'],
     maxAge: 3 * 60 * 60,
   },
   database: {
