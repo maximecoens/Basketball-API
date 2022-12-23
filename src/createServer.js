@@ -10,6 +10,13 @@ const { serializeError } = require('serialize-error');
 const ServiceError = require('./core/serviceError');
 const {checkJwtToken} = require('./core/auth');
 
+const swaggerJsdoc = require('swagger-jsdoc');
+const {
+  koaSwagger,
+} = require('koa2-swagger-ui');
+
+const swaggerOptions = require('../swagger.config');
+
 const NODE_ENV = config.get('env');
 const CORS_ORIGINS = config.get('cors.origins');
 const CORS_MAX_AGE = config.get('cors.maxAge');
@@ -53,6 +60,18 @@ module.exports = async function createServer () {
 	});
 
 	app.use(bodyParser());
+
+	const spec = swaggerJsdoc(swaggerOptions);
+  app.use(
+    koaSwagger({
+      routePrefix: '/swagger',
+      specPrefix: '/swagger/spec',
+      exposeSpec: true,
+      swaggerOptions: {
+        spec,
+      },
+    }),
+  );
 
 	app.use(async (ctx, next) => {
 		const logger = getLogger();
