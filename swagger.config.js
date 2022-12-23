@@ -1,3 +1,5 @@
+const { http } = require("winston");
+
 module.exports = {
   definition: {
     openapi: '3.0.0',
@@ -18,6 +20,21 @@ module.exports = {
     servers: [{
       url: 'http://localhost:9000/',
     }],
+    components: {
+      securitySchemes: {
+        bearerAuth: [{
+          type: http,
+          scheme: bearer,
+          bearerFormat: JWT
+        }]
+      }
+    },
+    security: {
+      bearerAuth: []
+    },
+    paths: {
+      
+    }
   },
   apis: ['./src/rest/*.js'],
 };

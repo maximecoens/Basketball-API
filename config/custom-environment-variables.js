@@ -3,7 +3,11 @@ module.exports = {
   port: 'PORT',
   database: {
     username: 'DATABASE_USERNAME',
-    password: 'DATABASE_PASSWORD'
+    password: 'DATABASE_PASSWORD',
+    host : 'DATABASE_HOST',
+    port : 'DATABASE_PORT',
+    database : 'DATABASE_DATABASE',
+    client: 'DATABASE_CLIENT'
   },
   auth: {
     jwksUri: 'AUTH_JWKS_URI',
