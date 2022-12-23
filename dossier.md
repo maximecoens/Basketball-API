@@ -123,7 +123,9 @@ Aangezien ik geen Front-end doe worden volgende velden opengelaten.
 
 ### Web Services
 
-> Hoe heb je jouw applicatie gestructureerd (mappen, design patterns...)?
+De API werd opgebouwd via een gelaagde structuur. Waarbij we een `repositorylaag` hebben waar alle SQL statements worden uitgevoerd voor het opvragen en manipuleren van de data die werd meegegeven in de https request. Daarnaast hebben we de `servicelaag` die vooral voor de logica bestaat en dus de juiste data en opdrachten zal doorgeven repositorylaag. En ten slotte is er een `restlaag` waar de https request worden gelezen en daarna doorgegeven aan de servicelaag. Ook validaties worden daar uitgevoerd en de permissies zullen worden gecheckt.
+
+In de `datalaag` vinden we de seedings en migrations voor de databank. Ook de mock-data, die niet meer wordt gebruikt staat daar ook nog. Daarnaast wordt ook de databank daar geïnitialiseerd en maken we hier een knexinstantie aan.
 
 ## Extra technologie
 
