@@ -155,7 +155,7 @@ module.exports = async function createServer () {
 		}
 	});
 
-	installRest(app); // vanuit index.js in /rest
+	installRest(app);
 
 	return {
     getApp(){

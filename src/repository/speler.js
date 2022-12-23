@@ -26,7 +26,6 @@ const getById = async(spelerId) => {
   .join(`${tables.team}`, `${tables.team}.teamId`, '=',`${tables.speler}.teamId`)
   .where(`${tables.speler}.spelerId`, spelerId);
   return speler && formatSpeler(speler);
-  // alleen als speler gevonden wordt, geformateerd
 };
 
 const findByAuth0Id = async (auth0id) => {

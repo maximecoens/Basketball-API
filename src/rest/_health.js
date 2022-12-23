@@ -13,7 +13,7 @@ module.exports = (app) => {
   const router = new Router({prefix: '/health'});
 
   router.get('/ping', ping);
-  router.get('/version', getVersion); // nooit iets zoals /getVersion, zelfstandig naamwoord
+  router.get('/version', getVersion);
 
   app.use(router.routes(), router.allowedMethods());
 }
