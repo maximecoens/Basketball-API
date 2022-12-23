@@ -92,6 +92,8 @@ const validate = require('./_validation');
  * /api/clubs:
  *   get:
  *     summary: Get all clubs
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Clubs
  *     responses:
@@ -114,6 +116,8 @@ getClubs.validationScheme = null;
  *   post:
  *     summary: Create a new club
  *     description: Creates a new club.
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Clubs
  *     requestBody:
@@ -152,6 +156,8 @@ createClub.validationScheme = {
  * /api/clubs/{id}:
  *   get:
  *     summary: Get a single club
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Clubs
  *     parameters:
@@ -186,6 +192,8 @@ getClubById.validationScheme = {
  * /api/clubs/{id}:
  *   delete:
  *     summary: Delete a club
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Clubs
  *     parameters:
@@ -217,6 +225,8 @@ deleteClub.validationScheme = {
  * /api/clubs/{id}:
  *   put:
  *     summary: Update an existing club
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Clubs
  *     parameters:
@@ -263,7 +273,7 @@ updateClub.validationScheme = {
 module.exports = (app) => {
   const router = new Router({prefix: '/clubs'});
   
-  router.get('/', validate(getClubs.validationScheme), getClubs);
+  router.get('/', hasPermission(permissions.read), validate(getClubs.validationScheme), getClubs);
   router.get('/:id', hasPermission(permissions.read), validate(getClubById.validationScheme), getClubById); // eerst validatie vindt plaats daarna naar endpoint gestuurd
   router.post('/', hasPermission(permissions.write), validate(createClub.validationScheme), createClub);
   router.put('/:id', hasPermission(permissions.write), validate(updateClub.validationScheme), updateClub);

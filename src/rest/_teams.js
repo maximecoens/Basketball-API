@@ -68,6 +68,8 @@ const {permissions, hasPermission} = require('../core/auth');
  * /api/teams:
  *   get:
  *     summary: Get all teams
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Teams
  *     responses:
@@ -90,6 +92,8 @@ getTeams.validationScheme = null;
  *   post:
  *     summary: Create a new team
  *     description: Creates a new team within a club.
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Teams
  *     requestBody:
@@ -131,6 +135,8 @@ createTeam.validationScheme = {
  * /api/teams/{id}:
  *   get:
  *     summary: Get a single team
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Teams
  *     parameters:
@@ -164,6 +170,8 @@ getTeamById.validationScheme = {
  * /api/teams/{id}:
  *   delete:
  *     summary: Delete a team
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Teams
  *     parameters:
@@ -194,6 +202,8 @@ deleteTeam.validationScheme = {
  * /api/teams/{id}:
  *   put:
  *     summary: Update an existing team
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Teams
  *     parameters:

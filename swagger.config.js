@@ -19,22 +19,19 @@ module.exports = {
     },
     servers: [{
       url: 'http://localhost:9000/',
-    }],/*
+    }],
     components: {
       securitySchemes: {
-        bearerAuth: [{
-          type: http,
-          scheme: bearer,
-          bearerFormat: JWT
-        }]
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        }
       }
     },
-    security: {
-      bearerAuth: []
-    },
-    paths: {
-      
-    }*/
+    security: [ { 
+      Bearer: [] 
+    } ],
   },
   apis: ['./src/rest/*.js'],
 };

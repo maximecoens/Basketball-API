@@ -106,6 +106,8 @@ const validate = require('./_validation');
  * /api/spelers:
  *   get:
  *     summary: Get all players
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Spelers
  *     responses:
@@ -128,6 +130,8 @@ getSpelers.validationScheme = null;
  *   post:
  *     summary: Create a new player
  *     description: Creates a new player.
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Spelers
  *     requestBody:
@@ -180,6 +184,8 @@ createSpeler.validationScheme = {
  * /api/spelers/{id}:
  *   get:
  *     summary: Get a single player
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Spelers
  *     parameters:
@@ -219,6 +225,8 @@ getSpelerById.validationScheme = {
  * /api/spelers/{id}:
  *   delete:
  *     summary: Delete a player
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Spelers
  *     parameters:
@@ -255,6 +263,8 @@ deleteSpeler.validationScheme = {
  * /api/spelers/{id}:
  *   put:
  *     summary: Update an existing player
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Spelers
  *     parameters:

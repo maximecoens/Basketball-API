@@ -98,6 +98,8 @@ const validate = require('./_validation');
  * /api/games:
  *   get:
  *     summary: Get all games
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Games
  *     responses:
@@ -128,6 +130,8 @@ ctx.body = await gameService.create({
  *   post:
  *     summary: Create a new game
  *     description: Creates a new game between two teams.
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Games
  *     requestBody:
@@ -169,6 +173,8 @@ createGame.validationScheme = {
  * /api/games/{id}:
  *   get:
  *     summary: Get a single game
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Games
  *     parameters:
@@ -203,6 +209,8 @@ getGameById.validationScheme = {
  * /api/games/{id}:
  *   delete:
  *     summary: Delete a game
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Games
  *     parameters:
@@ -234,6 +242,8 @@ deleteGame.validationScheme = {
  * /api/games/{id}:
  *   put:
  *     summary: Update an existing game
+ *     security:
+ *      - bearerAuth: []
  *     tags:
  *      - Games
  *     parameters:
