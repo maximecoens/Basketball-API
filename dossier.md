@@ -3,9 +3,9 @@
 - [ ] Front-end Web Development
   - [GitHub repository](github.com/HOGENT-Web)
   - [Online versie](github.com/HOGENT-Web)
-- [x] Web Services: GITHUB URL
-  - [GitHub repository](github.com/Web-IV/2223-webservices-maximecoens)
-  - [Online versie](github.com/HOGENT-Web)
+- [x] Web Services: "https://github.com/Web-IV/2223-webservices-maximecoens"
+  - [GitHub repository](https://github.com/Web-IV/2223-webservices-maximecoens)
+  - [Online versie](https://sport-applicatie.onrender.com)
 
 **Logingegevens**
 
@@ -38,7 +38,9 @@ Een speler die de rol admin heeft kan specifiek teams, clubs en games aanmaken, 
 
 ## Screenshots
 
-Geen screenshots, niet nodig doordat ik enkel het vak `Web Services` had en dus geen Front-end development. Hierdoor kan ik geen screenshots van een applicatie tonen.
+Geen screenshots van een applicatie, niet nodig doordat ik enkel het vak `Web Services` had en dus geen Front-end development. Hierdoor kan ik geen screenshots van een applicatie tonen. Ik toon wel een screenshot van de API die online werd gezet.
+![image](https://user-images.githubusercontent.com/84249943/209407624-d180db20-ee05-41cc-ac02-bd234112b328.png)
+
 
 ## Behaalde minimumvereisten
 
