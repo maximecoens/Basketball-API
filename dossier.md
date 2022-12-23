@@ -150,4 +150,5 @@ Aan de hand van mock data die telkens in de database 186204mc_test werd geplaats
 ### Web Services
 
 **Meertaligheid**
+<br />
 De code van de backend staat niet geschreven in 1 taal. Dit is een combinatie van Nederlands en Engels. De code zelf werd in het engels geschreven maar enkele Error messages en andere loggings werden in het Nederlands geschreven.
