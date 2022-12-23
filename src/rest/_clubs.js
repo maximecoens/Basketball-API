@@ -263,7 +263,7 @@ updateClub.validationScheme = {
 module.exports = (app) => {
   const router = new Router({prefix: '/clubs'});
   
-  router.get('/', hasPermission(permissions.read), validate(getClubs.validationScheme), getClubs);
+  router.get('/', hasPermission(permissions.loggedIn), validate(getClubs.validationScheme), getClubs);
   router.get('/:id', hasPermission(permissions.read), validate(getClubById.validationScheme), getClubById); // eerst validatie vindt plaats daarna naar endpoint gestuurd
   router.post('/', hasPermission(permissions.write), validate(createClub.validationScheme), createClub);
   router.put('/:id', hasPermission(permissions.write), validate(updateClub.validationScheme), updateClub);
