@@ -22,10 +22,10 @@ Dit bestand bevat volgende informatie:
 NODE_ENV=development
 DATABASE_USERNAME=""
 DATABASE_PASSWORD=""
-AUTH_JWKS_URI=https://maxime-hogent.eu.auth0.com/.well-known/jwks.json
-AUTH_AUDIENCE=https://sport-app.hogent.be
-AUTH_ISSUER=https://maxime-hogent.eu.auth0.com/
-AUTH_USER_INFO=https://maxime-hogent.eu.auth0.com/userinfo
+AUTH_JWKS_URI="https://(TENANT)/.well-known/jwks.json"
+AUTH_AUDIENCE="(API-IDENTIFIER)"
+AUTH_ISSUER="https://(TENANT)"
+AUTH_USER_INFO="https://(TENANT)/userinfo"
 ```
 De username en password van de database zal je zelf moeten instellen met uw eigen lokale databank.
 
@@ -38,18 +38,17 @@ Voor hem in production modus op te starten zal je `yarn start:prod`. Hier moet v
 NODE_ENV=test
 DATABASE_USERNAME=""
 DATABASE_PASSWORD=""
+AUTH_JWKS_URI="https://(TENANT)/.well-known/jwks.json"
+AUTH_AUDIENCE="(API-IDENTIFIER)"
+AUTH_ISSUER="https://(TENANT)"
+AUTH_USER_INFO="https://(TENANT)/userinfo"
 
-AUTH_JWKS_URI=https://maxime-hogent.eu.auth0.com/.well-known/jwks.json
-AUTH_AUDIENCE=https://sport-app.hogent.be
-AUTH_ISSUER=https://maxime-hogent.eu.auth0.com/
-AUTH_USER_INFO=https://maxime-hogent.eu.auth0.com/userinfo
-
-AUTH_TEST_USER_USER_ID=auth0|63a4cfbddd84a45a70f91a40
-AUTH_TEST_USER_USERNAME=e2e-testing@sportapp.be
-AUTH_TEST_USER_PASSWORD=Tester123
-AUTH_TOKEN_URL=https://maxime-hogent.eu.auth0.com/oauth/token
-AUTH_CLIENT_ID=nAQTe7xNniWjBsUCxz5ABVUqPhXAfkR9
-AUTH_CLIENT_SECRET=Ie2bGcyo5-bTt577332wPm8kFB7-4YSdScozWqXsJydRD5a2neeHTw4vBwjOuLf6
+AUTH_TEST_USER_USER_ID="(TEST-USER-AUTH0ID)"
+AUTH_TEST_USER_USERNAME="(TEST-USER-USERNAME)"
+AUTH_TEST_USER_PASSWORD="(TEST-USER-PASSWORD)"
+AUTH_TOKEN_URL="https://(TENANT)/oauth/token"
+AUTH_CLIENT_ID="(YOUR-CLIENT-ID)"
+AUTH_CLIENT_SECRET="(YOUR-CLIENT-SECRET)"
 ```
 De username en password van de database zal je zelf moeten instellen met uw eigen lokale databank.
 
