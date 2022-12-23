@@ -24,6 +24,7 @@ const knexLogger = (logger, level) => (message) => {
 // connectie db, migreren, seeding
 const initializeDatabase = async () => {
   const logger = getLogger();
+  console.log(DATABASE_CLIENT);
   const knexOptions = {
     client: DATABASE_CLIENT,
     debug: isDevelopment,
