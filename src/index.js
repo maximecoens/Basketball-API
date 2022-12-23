@@ -14,6 +14,7 @@ async function main() {
 		process.on('SIGQUIT', onClose);
 	}
 	catch (error){
+		console.log(error);
 		process.exit(-1);
 	}
 }
