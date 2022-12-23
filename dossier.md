@@ -38,7 +38,7 @@ Een speler die de rol admin heeft kan specifiek teams, clubs en games aanmaken, 
 
 ## Screenshots
 
-> Voeg enkele (nuttige!) screenshots toe die tonen wat de app doet.
+Geen screenshots, niet nodig doordat ik enkel het vak `Web Services` had en dus geen Front-end development. Hierdoor kan ik geen screenshots van een applicatie tonen.
 
 ## Behaalde minimumvereisten
 
